@@ -1,0 +1,21 @@
+{
+  "name": "ffan/utils",
+  "description": "FFan php utils components",
+  "keywords": [
+    "ffan",
+    "utils"
+  ],
+  "type": "composer",
+  "authors": [
+    {
+      "name": "huangshunzhao",
+      "email": "huangshunzhao@wanda.cn",
+      "role": "Founder and project lead"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "ext-mbstring": "*"
+  },
+  "minimum-stability": "dev"
+}
