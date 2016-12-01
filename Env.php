@@ -42,6 +42,15 @@ class Env
     }
 
     /**
+     * 获取当前的运行环境标志
+     * @return int
+     */
+    public static function get()
+    {
+        return self::$flag;
+    }
+
+    /**
      * 设置环境为测试环境
      */
     public static function setTest()

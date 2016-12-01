@@ -11,12 +11,13 @@ var_dump(Env::isDev());
 var_dump(Env::isTest());
 var_dump(Env::isProduct());
 Env::setDev();
-try{
+try {
     Env::setTest();
     echo "Error!!!\n";
-}catch (\Exception $err){
+} catch (\Exception $err) {
     echo $err->getMessage(), PHP_EOL;
 }
 var_dump(Env::isDev());
 var_dump(Env::isTest());
 var_dump(Env::isProduct());
+var_dump(Env::get());
