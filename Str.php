@@ -14,7 +14,7 @@ class Str
      */
     public static function isUtf8($str)
     {
-        return 'UTF-8' === mb_detect_encoding($str, 'UTF-8');
+        return 'UTF-8' === mb_detect_encoding($str, 'UTF-8', true);
     }
 
     /**
@@ -43,7 +43,7 @@ class Str
         $main_arr = explode($main_flag, $str);
         foreach ($main_arr as $each_str) {
             $each_str = trim($each_str);
-            if (strlen($each_str)) {
+            if (0 === strlen($each_str)) {
                 continue;
             }
             $tmp_arr = explode($sub_flag, $each_str);
@@ -67,7 +67,7 @@ class Str
      * @param string $sub_flag 子分隔字符
      * @return string
      */
-    function newe_array_to_str($arr, $main_flag = ',', $sub_flag = ':')
+    public static function dualJoin($arr, $main_flag = ',', $sub_flag = ':')
     {
         $result = array();
         foreach ($arr as $key => $value) {
