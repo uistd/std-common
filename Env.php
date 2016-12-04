@@ -202,6 +202,11 @@ class Env
             if (!is_writable(self::$_log_path)) {
                 throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not writable');
             }
+            $len = strlen(self::$_log_path);
+            //补全目录路径
+            if (DIRECTORY_SEPARATOR !== self::$_log_path[$len - 1]) {
+                self::$_log_path .= DIRECTORY_SEPARATOR;
+            }
             self::$_log_path_check = true;
         }
         return self::$_log_path;
