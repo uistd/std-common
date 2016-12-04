@@ -23,9 +23,29 @@ class Env
     const PRODUCT = 3;
 
     /**
+     * @var string 默认的日志目录
+     */
+    private static $_log_path = '/var/log/';
+
+    /**
+     * @var bool 是否检查过log_path的可用性了
+     */
+    private static $_log_path_check = false;
+
+    /**
+     * @var string 时区
+     */
+    private static $_timezone = 'Asia/Shanghai';
+
+    /**
+     * @var string 系统编码
+     */
+    private static $_charset = 'UTF-8';
+
+    /**
      * @var int 运行环境标志
      */
-    private static $flag = self::PRODUCT;
+    private static $_flag = self::PRODUCT;
 
     /**
      * @var bool 是否锁定
@@ -47,7 +67,7 @@ class Env
      */
     public static function get()
     {
-        return self::$flag;
+        return self::$_flag;
     }
 
     /**
@@ -77,7 +97,7 @@ class Env
         if (self::$_is_lock) {
             throw new \Exception('Can not reset run environment!');
         }
-        self::$flag = $flag;
+        self::$_flag = $flag;
         self::$_is_lock = true;
     }
 
@@ -87,7 +107,7 @@ class Env
      */
     public static function isDev()
     {
-        return self::DEV === self::$flag;
+        return self::DEV === self::$_flag;
     }
 
     /**
@@ -96,7 +116,7 @@ class Env
      */
     public static function isTest()
     {
-        return self::TEST === self::$flag;
+        return self::TEST === self::$_flag;
     }
 
     /**
@@ -105,6 +125,85 @@ class Env
      */
     public static function isProduct()
     {
-        return self::PRODUCT === self::$flag;
+        return self::PRODUCT === self::$_flag;
+    }
+
+    /**
+     * 获取时区环境变量
+     * @return string 获取时区
+     */
+    public static function getTimezone()
+    {
+        return self::$_timezone;
+    }
+
+    /**
+     * 设置时区环境变量
+     * @param string $timezone 时区
+     * @return string
+     */
+    public static function setTimezone($timezone)
+    {
+        //todo 验证时区有效性
+        return self::$_timezone = $timezone;
+    }
+
+    /**
+     * 获取系统默认编码
+     * @return string
+     */
+    public static function getCharset()
+    {
+        return self::$_charset;
+    }
+
+    /**
+     * 设置默认编码
+     * @param string $charset 编码
+     * @return string
+     */
+    public static function setCharset($charset)
+    {
+        //todo 验证时间有效性
+        return self::$_charset;
+    }
+
+    /**
+     * 设置系统的日志目录
+     * @param string $log_path
+     */
+    public static function setLogPath($log_path)
+    {
+        if (!is_string($log_path)) {
+            throw new \InvalidArgumentException('$log_path is not string');
+        }
+        $log_path = trim($log_path);
+        if (0 == strlen($log_path)) {
+            throw new \InvalidArgumentException('$log_path is empty');
+        }
+        if (DIRECTORY_SEPARATOR !== $log_path[0]) {
+            throw new \InvalidArgumentException('$log_path is not absolute path!');
+        }
+        self::$_log_path = $log_path;
+    }
+
+    /**
+     * 获取日志
+     * @return string
+     */
+    public static function getLogPath()
+    {
+        //检查日志目录是否可用
+        if (!self::$_log_path_check) {
+            if (!is_dir(self::$_log_path) && !mkdir(self::$_log_path, 0755, true)) {
+                throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not exist');
+            }
+            //不可写
+            if (!is_writable(self::$_log_path)) {
+                throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not writable');
+            }
+            self::$_log_path_check = true;
+        }
+        return self::$_log_path;
     }
 }
