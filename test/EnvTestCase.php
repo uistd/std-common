@@ -21,3 +21,9 @@ var_dump(Env::isDev());
 var_dump(Env::isTest());
 var_dump(Env::isProduct());
 var_dump(Env::get());
+
+Env::setCharset('UTF-8');
+echo Env::getCharset(), PHP_EOL;
+echo Env::getTimezone(), PHP_EOL;
+Env::setLogPath(__DIR__ .DIRECTORY_SEPARATOR .'runtime');
+echo Env::getLogPath(), PHP_EOL;
