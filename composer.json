@@ -18,10 +18,10 @@
     "ext-mbstring": "*"
   },
   "autoload": {
-    "psr-4": {"ffan\\utils\\": ""}
-  },
+  "psr-4": {"ffan\\utils\\": ""}
+},
   "minimum-stability": "dev",
   "archive": {
-    "exclude": ["!/test"]
+    "exclude": ["test"]
   }
 }
