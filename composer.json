@@ -20,5 +20,8 @@
   "autoload": {
     "psr-4": {"ffan\\utils\\": ""}
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "archive": {
+    "exclude": ["!/test"]
+  }
 }
