@@ -136,17 +136,17 @@ class Env
         if (DIRECTORY_SEPARATOR !== $log_path[0]) {
             throw new \InvalidArgumentException('log_path:' . $log_path . ' is not absolute path!');
         }
-        if (!is_dir(self::$_log_path) && !mkdir(self::$_log_path, 0755, true)) {
-            throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not exist');
+        if (!is_dir($log_path) && !mkdir($log_path, 0755, true)) {
+            throw new \RuntimeException('Env log_path:' . $log_path . ' is not exist');
         }
         //不可写
-        if (!is_writable(self::$_log_path)) {
-            throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not writable');
+        if (!is_writable($log_path)) {
+            throw new \RuntimeException('Env log_path:' . $log_path . ' is not writable');
         }
-        $len = strlen(self::$_log_path);
+        $len = strlen($log_path);
         //补全目录路径
-        if (DIRECTORY_SEPARATOR !== self::$_log_path[$len - 1]) {
-            self::$_log_path .= DIRECTORY_SEPARATOR;
+        if (DIRECTORY_SEPARATOR !== $log_path[$len - 1]) {
+            $log_path .= DIRECTORY_SEPARATOR;
         }
         self::$_log_path = $log_path;
         return $log_path;
