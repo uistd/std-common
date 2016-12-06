@@ -28,11 +28,6 @@ class Env
     private static $_log_path = '/var/log/';
 
     /**
-     * @var bool 是否检查过log_path的可用性了
-     */
-    private static $_log_path_check = false;
-
-    /**
      * @var string 时区
      */
     private static $_timezone = 'Asia/Shanghai';
@@ -43,62 +38,23 @@ class Env
     private static $_charset = 'UTF-8';
 
     /**
-     * @var int 运行环境标志
-     */
-    private static $_flag = self::PRODUCT;
-
-    /**
-     * @var bool 是否锁定
-     * 环境只允许设置一次，不允许变更
-     */
-    private static $_is_lock = false;
-
-    /**
-     * 设置环境为 开发环境
-     */
-    public static function setDev()
-    {
-        self::set(self::DEV);
-    }
-
-    /**
-     * 获取当前的运行环境标志
+     * 获取运行环境
      * @return int
      */
-    public static function get()
+    public static function getEnv()
     {
-        return self::$_flag;
-    }
-
-    /**
-     * 设置环境为测试环境
-     */
-    public static function setTest()
-    {
-        self::set(self::TEST);
-    }
-
-    /**
-     * 设置环境为生产环境
-     */
-    public static function setProduct()
-    {
-        self::set(self::PRODUCT);
-    }
-
-    /**
-     * 设置环境
-     * 环境只允许设置一次
-     * @param int $flag
-     * @throws \Exception
-     */
-    private static function set($flag)
-    {
-        if (self::$_is_lock) {
-            throw new \Exception('Can not reset run environment!');
+        static $conf_env_static;
+        if ($conf_env_static) {
+            return $conf_env_static;
         }
-        self::$_flag = $flag;
-        self::$_is_lock = true;
+        $tmp_env = Config::get('env', 'product');
+        $env_map = array(
+            'dev' => self::DEV,
+            'test' => self::TEST,
+            'product' => self::PRODUCT
+        );
+        $conf_env_static = isset($env_map[$tmp_env]) ? $env_map[$tmp_env] : self::PRODUCT;
+        return $conf_env_static;
     }
 
     /**
@@ -107,7 +63,7 @@ class Env
      */
     public static function isDev()
     {
-        return self::DEV === self::$_flag;
+        return self::DEV === self::getEnv();
     }
 
     /**
@@ -116,7 +72,7 @@ class Env
      */
     public static function isTest()
     {
-        return self::TEST === self::$_flag;
+        return self::TEST === self::getEnv();
     }
 
     /**
@@ -125,7 +81,7 @@ class Env
      */
     public static function isProduct()
     {
-        return self::PRODUCT === self::$_flag;
+        return self::PRODUCT === self::getEnv();
     }
 
     /**
@@ -134,18 +90,13 @@ class Env
      */
     public static function getTimezone()
     {
+        static $is_init_static = false;
+        if ($is_init_static) {
+            return self::$_timezone;
+        }
+        //todo 从配置里获取时区，并验证配置的时区是否正确
+        $is_init_static = true;
         return self::$_timezone;
-    }
-
-    /**
-     * 设置时区环境变量
-     * @param string $timezone 时区
-     * @return string
-     */
-    public static function setTimezone($timezone)
-    {
-        //todo 验证时区有效性
-        return self::$_timezone = $timezone;
     }
 
     /**
@@ -154,37 +105,13 @@ class Env
      */
     public static function getCharset()
     {
+        static $is_init_static = false;
+        if ($is_init_static) {
+            return self::$_charset;
+        }
+        //todo 从配置里获取时区，并验证配置的时区是否正确
+        $is_init_static = true;
         return self::$_charset;
-    }
-
-    /**
-     * 设置默认编码
-     * @param string $charset 编码
-     * @return string
-     */
-    public static function setCharset($charset)
-    {
-        //todo 验证时间有效性
-        return self::$_charset;
-    }
-
-    /**
-     * 设置系统的日志目录
-     * @param string $log_path
-     */
-    public static function setLogPath($log_path)
-    {
-        if (!is_string($log_path)) {
-            throw new \InvalidArgumentException('$log_path is not string');
-        }
-        $log_path = trim($log_path);
-        if (0 == strlen($log_path)) {
-            throw new \InvalidArgumentException('$log_path is empty');
-        }
-        if (DIRECTORY_SEPARATOR !== $log_path[0]) {
-            throw new \InvalidArgumentException('$log_path is not absolute path!');
-        }
-        self::$_log_path = $log_path;
     }
 
     /**
@@ -193,22 +120,35 @@ class Env
      */
     public static function getLogPath()
     {
-        //检查日志目录是否可用
-        if (!self::$_log_path_check) {
-            if (!is_dir(self::$_log_path) && !mkdir(self::$_log_path, 0755, true)) {
-                throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not exist');
-            }
-            //不可写
-            if (!is_writable(self::$_log_path)) {
-                throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not writable');
-            }
-            $len = strlen(self::$_log_path);
-            //补全目录路径
-            if (DIRECTORY_SEPARATOR !== self::$_log_path[$len - 1]) {
-                self::$_log_path .= DIRECTORY_SEPARATOR;
-            }
-            self::$_log_path_check = true;
+        static $is_init_static = false;
+        if ($is_init_static) {
+            return self::$_log_path;
         }
-        return self::$_log_path;
+        $is_init_static = true;
+        $log_path = Config::get('log_path');
+        if (!is_string($log_path)) {
+            $log_path = self::$_log_path;
+        }
+        $log_path = trim($log_path);
+        if (0 == strlen($log_path)) {
+            throw new \InvalidArgumentException('log_path:' . $log_path . ' is empty');
+        }
+        if (DIRECTORY_SEPARATOR !== $log_path[0]) {
+            throw new \InvalidArgumentException('log_path:' . $log_path . ' is not absolute path!');
+        }
+        if (!is_dir(self::$_log_path) && !mkdir(self::$_log_path, 0755, true)) {
+            throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not exist');
+        }
+        //不可写
+        if (!is_writable(self::$_log_path)) {
+            throw new \RuntimeException('Env log_path:' . self::$_log_path . ' is not writable');
+        }
+        $len = strlen(self::$_log_path);
+        //补全目录路径
+        if (DIRECTORY_SEPARATOR !== self::$_log_path[$len - 1]) {
+            self::$_log_path .= DIRECTORY_SEPARATOR;
+        }
+        self::$_log_path = $log_path;
+        return $log_path;
     }
 }

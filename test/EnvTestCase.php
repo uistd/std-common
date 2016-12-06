@@ -5,25 +5,14 @@
 namespace ffan\utils;
 
 require_once '../Env.php';
+require_once '../Config.php';
 
 error_reporting(-1);
 var_dump(Env::isDev());
 var_dump(Env::isTest());
 var_dump(Env::isProduct());
-Env::setDev();
-try {
-    Env::setTest();
-    echo "Error!!!\n";
-} catch (\Exception $err) {
-    echo $err->getMessage(), PHP_EOL;
-}
-var_dump(Env::isDev());
-var_dump(Env::isTest());
-var_dump(Env::isProduct());
-var_dump(Env::get());
+var_dump(Env::getEnv());
 
-Env::setCharset('UTF-8');
 echo Env::getCharset(), PHP_EOL;
 echo Env::getTimezone(), PHP_EOL;
-Env::setLogPath(__DIR__ .DIRECTORY_SEPARATOR .'runtime');
 echo Env::getLogPath(), PHP_EOL;
