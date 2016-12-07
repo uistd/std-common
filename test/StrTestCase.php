@@ -22,3 +22,10 @@ echo Str::dualJoin(['a' => 1, 'b' => 2, 3]), PHP_EOL;
 echo Str::len('all ascii');
 echo Str::len('中国');
 echo Str::len('I love 中国');
+
+var_dump(Str::split('|a, b, c, d'));
+var_dump(Str::split('a| b |c |d', '|'));
+var_dump(Str::split('a| b |c |d', '|', 0));
+var_dump(Str::split('|a| b |c |d', '|', 0));
+var_dump(Str::split('|a| b |c |d', '|', Str::IGNORE_EMPTY));
+var_dump(Str::split('|1, 2,3, 4', ',', Str::TRIM|Str::IGNORE_EMPTY|Str::INTVAL));

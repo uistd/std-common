@@ -8,6 +8,21 @@ namespace ffan\utils;
 class Str
 {
     /**
+     * 切割的第一项都转成int
+     */
+    const INTVAL = 1;
+
+    /**
+     * 切割的每一项都trim
+     */
+    const TRIM = 2;
+
+    /**
+     * 忽略空值
+     */
+    const IGNORE_EMPTY = 4;
+
+    /**
      * 传入的字符串是否是utf8
      * @param string $str 传入字符串
      * @return bool
@@ -74,5 +89,39 @@ class Str
             $result[] = $key . $sub_flag . $value;
         }
         return join($main_flag, $result);
+    }
+
+    /**
+     * 将传入的字符串按指定字符串切割
+     * @param string $str 待切字符串
+     * @param string $split_flag 分割字符
+     * @param int $split_mod 切割选项
+     * 默认会忽略空值和移除左右空格
+     *
+     * @return array
+     */
+    public static function split($str, $split_flag = ',', $split_mod = self::TRIM|self::IGNORE_EMPTY)
+    {
+        if (!is_string($str)) {
+            $str = (string)$str;
+        }
+        $result = array();
+        if (empty($str)) {
+            return $result;
+        }
+        $arr = explode($split_flag, $str);
+        foreach ($arr as $item) {
+            if ($split_mod & self::TRIM) {
+                $item = trim($item);
+            }
+            if (($split_mod & self::IGNORE_EMPTY) && 0 == strlen($item)) {
+                continue;
+            }
+            if ($split_mod & self::INTVAL) {
+                $item = (int)$item;
+            }
+            $result[] = $item;
+        }
+        return $result;
     }
 }
