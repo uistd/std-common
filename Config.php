@@ -45,4 +45,17 @@ class Config
     {
         return isset(self::$_conf_arr[$key]) ? self::$_conf_arr[$key] : $default_value;
     }
+
+    /**
+     * 初始化配置
+     * @param array $init_config
+     */
+    public static function init(array $init_config)
+    {
+        //如果$_conf_arr已经不为空了，不能调用该方法初始化
+        if (!empty(self::$_conf_arr)){
+            throw new \RuntimeException('Configuration has been initialized!');
+        }
+        self::$_conf_arr = $init_config;
+    }
 }
