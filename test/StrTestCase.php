@@ -28,4 +28,4 @@ var_dump(Str::split('a| b |c |d', '|'));
 var_dump(Str::split('a| b |c |d', '|', 0));
 var_dump(Str::split('|a| b |c |d', '|', 0));
 var_dump(Str::split('|a| b |c |d', '|', Str::IGNORE_EMPTY));
-var_dump(Str::split('|1, 2,3, 4', ',', Str::TRIM|Str::IGNORE_EMPTY|Str::INTVAL));
+var_dump(Str::split('|1, 2,3, 4', ',', Str::TRIM | Str::IGNORE_EMPTY | Str::INTVAL));

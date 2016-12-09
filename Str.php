@@ -100,7 +100,7 @@ class Str
      *
      * @return array
      */
-    public static function split($str, $split_flag = ',', $split_mod = self::TRIM|self::IGNORE_EMPTY)
+    public static function split($str, $split_flag = ',', $split_mod = self::TRIM | self::IGNORE_EMPTY)
     {
         if (!is_string($str)) {
             $str = (string)$str;
