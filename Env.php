@@ -131,4 +131,13 @@ class Env
         self::$_runtime_path = $runtime_path;
         return $runtime_path;
     }
+
+    /**
+     * PHP SAPI是否是CLI方式
+     * @return bool
+     */
+    public static function isCli()
+    {
+        return 'cli' === PHP_SAPI;
+    }
 }
