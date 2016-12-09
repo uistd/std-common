@@ -23,19 +23,14 @@ class Env
     const PRODUCT = 3;
 
     /**
-     * @var string 默认的日志目录
+     * @var string runtime目录
      */
-    private static $_log_path = '/var/log/';
+    private static $_runtime_path;
 
     /**
-     * @var string 时区
+     * @var int|null 环境
      */
-    private static $_timezone = 'Asia/Shanghai';
-
-    /**
-     * @var string 系统编码
-     */
-    private static $_charset = 'UTF-8';
+    private static $_env;
 
     /**
      * 获取运行环境
@@ -43,9 +38,8 @@ class Env
      */
     public static function getEnv()
     {
-        static $conf_env_static;
-        if ($conf_env_static) {
-            return $conf_env_static;
+        if (null !== self::$_env) {
+            return self::$_env;
         }
         $tmp_env = Config::get('env', 'product');
         $env_map = array(
@@ -53,8 +47,8 @@ class Env
             'test' => self::TEST,
             'product' => self::PRODUCT
         );
-        $conf_env_static = isset($env_map[$tmp_env]) ? $env_map[$tmp_env] : self::PRODUCT;
-        return $conf_env_static;
+        self::$_env = isset($env_map[$tmp_env]) ? $env_map[$tmp_env] : self::PRODUCT;
+        return self::$_env;
     }
 
     /**
@@ -90,13 +84,7 @@ class Env
      */
     public static function getTimezone()
     {
-        static $is_init_static = false;
-        if ($is_init_static) {
-            return self::$_timezone;
-        }
-        //todo 从配置里获取时区，并验证配置的时区是否正确
-        $is_init_static = true;
-        return self::$_timezone;
+        return Config::get('timezone', 'Asia/Shanghai');
     }
 
     /**
@@ -105,50 +93,42 @@ class Env
      */
     public static function getCharset()
     {
-        static $is_init_static = false;
-        if ($is_init_static) {
-            return self::$_charset;
-        }
-        //todo 从配置里获取时区，并验证配置的时区是否正确
-        $is_init_static = true;
-        return self::$_charset;
+        return Config::get('charset', 'UTF-8');
     }
 
     /**
-     * 获取日志
+     * 获取运行目录
      * @return string
      */
-    public static function getLogPath()
+    public static function getRuntimePath()
     {
-        static $is_init_static = false;
-        if ($is_init_static) {
-            return self::$_log_path;
+        if (null !== self::$_runtime_path) {
+            return self::$_runtime_path;
         }
-        $is_init_static = true;
-        $log_path = Config::get('log_path');
-        if (!is_string($log_path)) {
-            $log_path = self::$_log_path;
+        $runtime_path = Config::get('runtime_path', '/var/log/');
+        if (!is_string($runtime_path)) {
+            $runtime_path = self::$_runtime_path;
         }
-        $log_path = trim($log_path);
-        if (0 == strlen($log_path)) {
-            throw new \InvalidArgumentException('log_path:' . $log_path . ' is empty');
+        $runtime_path = trim($runtime_path);
+        if (0 == strlen($runtime_path)) {
+            throw new \RuntimeException('runtime_path:' . $runtime_path . ' is empty');
         }
-        if (DIRECTORY_SEPARATOR !== $log_path[0]) {
-            throw new \InvalidArgumentException('log_path:' . $log_path . ' is not absolute path!');
+        if (DIRECTORY_SEPARATOR !== $runtime_path[0]) {
+            throw new \RuntimeException('runtime_path:' . $runtime_path . ' is not absolute path!');
         }
-        if (!is_dir($log_path) && !mkdir($log_path, 0755, true)) {
-            throw new \RuntimeException('Env log_path:' . $log_path . ' is not exist');
+        if (!is_dir($runtime_path) && !mkdir($runtime_path, 0755, true)) {
+            throw new \RuntimeException('Env runtime_path:' . $runtime_path . ' is not exist');
         }
         //不可写
-        if (!is_writable($log_path)) {
-            throw new \RuntimeException('Env log_path:' . $log_path . ' is not writable');
+        if (!is_writable($runtime_path)) {
+            throw new \RuntimeException('Env runtime_path:' . $runtime_path . ' is not writable');
         }
-        $len = strlen($log_path);
+        $len = strlen($runtime_path);
         //补全目录路径
-        if (DIRECTORY_SEPARATOR !== $log_path[$len - 1]) {
-            $log_path .= DIRECTORY_SEPARATOR;
+        if (DIRECTORY_SEPARATOR !== $runtime_path[$len - 1]) {
+            $runtime_path .= DIRECTORY_SEPARATOR;
         }
-        self::$_log_path = $log_path;
-        return $log_path;
+        self::$_runtime_path = $runtime_path;
+        return $runtime_path;
     }
 }

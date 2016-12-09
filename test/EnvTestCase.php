@@ -15,4 +15,4 @@ var_dump(Env::getEnv());
 
 echo Env::getCharset(), PHP_EOL;
 echo Env::getTimezone(), PHP_EOL;
-echo Env::getLogPath(), PHP_EOL;
+echo Env::getRuntimePath(), PHP_EOL;
