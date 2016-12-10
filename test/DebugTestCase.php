@@ -24,3 +24,24 @@ Debug::timerStart();
 usleep(100000);
 echo 'use time:' . Debug::timerStop(), PHP_EOL;
 echo 'total time:' . Debug::timerStop(), PHP_EOL;
+
+function test_func1($a)
+{
+    test_func2($a, 1);
+}
+
+function test_func2($b, $c){
+    test_func3($b, $c);
+}
+
+function test_func3($d, $e){
+    $a = new test4();
+    $a->func4();
+}
+class test4{
+    function func4(){
+        echo Debug::codeTrace();
+    }
+}
+test_func1('test');
+test_func1($_SERVER);

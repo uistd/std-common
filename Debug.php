@@ -90,4 +90,70 @@ class Debug
         }
         return $str;
     }
+
+    /**
+     * 生成代码回溯信息
+     * @param array|null 代码回溯信息 ，如果为null，立即获取
+     * @return string
+     */
+    public static function codeTrace($trace_list = null)
+    {
+        if (!is_array($trace_list)) {
+            $trace_list = debug_backtrace();
+            //第一条信息就是codeTrace，没意义
+            array_shift($trace_list);
+        }
+        $array_format = array();
+        $array_count = 0;
+        $error_arr = array();
+        //第一次循环，生成参数信息，做了一点优化，相同内容的数组或者对象已经打印过了，就不再打印
+        for ($i = count($trace_list) - 1; $i >= 0; --$i) {
+            $tmp_info = &$trace_list[$i];
+            if (!isset($tmp_info['args'])) {
+                $tmp_info['arg_info'] = '';
+                continue;
+            }
+            $arg_info = '';
+            foreach ($tmp_info['args'] as $arg_id => $each_arg) {
+                $param_type = gettype($each_arg);
+                $param_format = self::varFormat($each_arg, 4096);
+                if ('array' === $param_type || 'object' === $param_type) {
+                    $md5_param = md5($param_format);
+                    if (isset($array_format[$md5_param])) {
+                        $param_format = '[...]';
+                        $param_type = $array_format[$md5_param];
+                    } else {
+                        $arr_name = $param_type . '_' . $array_count;
+                        $array_format[$md5_param] = $arr_name;
+                        $param_type = $arr_name;
+                        $array_count++;
+                    }
+                }
+                $arg_info .= PHP_EOL . '[Arg_' . $arg_id . '] => (' . $param_type . ')' . $param_format;
+            }
+            $tmp_info['arg_info'] = $arg_info;
+        }
+        $index = 0;
+        foreach ($trace_list as $step_info) {
+            $error_msg = '#' . $index++ . ' ';
+            if (isset($step_info['file'])) {
+                $error_msg .= $step_info['file'];
+            }
+            if (isset($step_info['line'])) {
+                $error_msg .= '(line ' . $step_info['line'] . ') ';
+            }
+            if (isset($step_info['class'])) {
+                $error_msg .= $step_info['class'];
+            }
+            if (isset($step_info['type'])) {
+                $error_msg .= $step_info['type'];
+            }
+            if (isset($step_info['function'])) {
+                $error_msg .= $step_info['function'] .'()';
+            }
+            $error_msg .= $step_info['arg_info'] . PHP_EOL;
+            $error_arr[] = $error_msg;
+        }
+        return join(PHP_EOL, $error_arr) . PHP_EOL;
+    }
 }
