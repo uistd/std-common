@@ -1,9 +1,9 @@
 <?php
-namespace ffan\utils;
+namespace ffan\php\utils;
 
 /**
  * Class Env 环境
- * @package ffan\utils
+ * @package ffan\php\utils
  */
 class Env
 {

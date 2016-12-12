@@ -1,9 +1,9 @@
 <?php
-namespace ffan\utils;
+namespace ffan\php\utils;
 
 /**
  * Class Str 一些通用的字符串处理函数
- * @package ffan\utils
+ * @package ffan\php\utils
  */
 class Str
 {

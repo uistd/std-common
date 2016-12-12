@@ -1,9 +1,9 @@
 <?php
-namespace ffan\utils;
+namespace ffan\php\utils;
 
 /**
  * Class Debug 调试相关函数
- * @package ffan\utils
+ * @package ffan\php\utils
  */
 class Debug
 {

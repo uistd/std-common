@@ -1,8 +1,8 @@
 <?php
-namespace ffan\utils;
+namespace ffan\php\utils;
 /**
  * Class Ip IP操作相关函数
- * @package ffan\utils
+ * @package ffan\php\utils
  */
 class Ip
 {

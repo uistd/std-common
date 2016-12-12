@@ -1,8 +1,9 @@
 {
-  "name": "ffan/utils",
+  "name": "ffan/php/utils",
   "description": "FFan php utils components",
   "keywords": [
     "ffan",
+    "php",
     "utils"
   ],
   "type": "composer",
@@ -18,7 +19,7 @@
     "ext-mbstring": "*"
   },
   "autoload": {
-  "psr-4": {"ffan\\utils\\": "", "Psr\\EventManager\\":""}
+  "psr-4": {"ffan\\php\\utils\\": "", "Psr\\EventManager\\":""}
 },
   "minimum-stability": "dev",
   "archive": {

@@ -1,9 +1,9 @@
 <?php
-namespace ffan\utils;
+namespace ffan\php\utils;
 
 /**
  * Interface Exception
- * @package ffan\utils
+ * @package ffan\php\utils
  */
 interface Exception
 {

@@ -1,5 +1,5 @@
 <?php
-namespace ffan\utils;
+namespace ffan\php\utils;
 
 class Config
 {

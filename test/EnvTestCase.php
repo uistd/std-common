@@ -2,7 +2,7 @@
 /**
  * 还没有确定用PHPUnit 还是 Codeception 时间关系，先随便写一点测试代码
  */
-namespace ffan\utils;
+namespace ffan\php\utils;
 
 require_once '../Env.php';
 require_once '../Config.php';
