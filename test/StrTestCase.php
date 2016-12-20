@@ -29,3 +29,6 @@ var_dump(Str::split('a| b |c |d', '|', 0));
 var_dump(Str::split('|a| b |c |d', '|', 0));
 var_dump(Str::split('|a| b |c |d', '|', Str::IGNORE_EMPTY));
 var_dump(Str::split('|1, 2,3, 4', ',', Str::TRIM | Str::IGNORE_EMPTY | Str::INTVAL));
+$str = 'member_view_detail';
+echo Str::camelName($str), PHP_EOL;
+echo Str::camelName($str, false), PHP_EOL;

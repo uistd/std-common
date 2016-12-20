@@ -124,4 +124,17 @@ class Str
         }
         return $result;
     }
+
+    /**
+     * 将下划线命名转换为驼峰式命名
+     * @param string $str 原始字符
+     * @param bool $uppercase_first 首字母是否大写
+     * @return string
+     */
+    public static function camelName($str, $uppercase_first = true)
+    {
+        $str = ucwords(str_replace('_', ' ', $str));
+        $str = str_replace(' ', '', $str);
+        return $uppercase_first ? $str : lcfirst($str);
+    }
 }
