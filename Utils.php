@@ -58,27 +58,33 @@ class Utils
     /**
      * 当传入的路径不是绝对路径时，前路径使用 runtime 路径补全
      * @param string $path 目录
-     * @param bool $make_dir 是否创建目录，如果不存在
      * @return string
      */
-    public static function fixWithRuntimePath($path, $make_dir = false)
+    public static function fixWithRuntimePath($path )
     {
         $path = trim($path);
-        if (DIRECTORY_SEPARATOR !== $path[0]) {
-            $path = Env::getRuntimePath() . $path;
-        }
-        if ($make_dir) {
-            if (!is_dir($path) && !mkdir($path, 0755, true)) {
-                throw new \RuntimeException('Path:' . $path . ' is not exist');
-            }
-            //不可写
-            if (!is_writable($path)) {
-                throw new \RuntimeException('Path:' . $path . ' is not writable');
-            }
-        }
         if (DIRECTORY_SEPARATOR !== $path[strlen($path) - 1]) {
             $path .= DIRECTORY_SEPARATOR;
         }
+        if (DIRECTORY_SEPARATOR !== $path[0]) {
+            $path = Env::getRuntimePath() . $path;
+        }
         return $path;
+    }
+
+    /**
+     * 判断目录是否有写入权限
+     * @param string $path 目录
+     * @param bool $auto_make 是否自动创建目录
+     */
+    public static function pathWriteCheck($path, $auto_make = true)
+    {
+        if (!is_dir($path) && $auto_make && !mkdir($path, 0755, true)) {
+            throw new \RuntimeException('Path:' . $path . ' is not exist');
+        }
+        //不可写
+        if (!is_writable($path)) {
+            throw new \RuntimeException('Path:' . $path . ' is not writable');
+        }
     }
 }
