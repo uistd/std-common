@@ -9,7 +9,15 @@ Config::addArray(array('a' => 3, 'b' => 4));
 var_dump(Config::get('a'));
 var_dump(Config::get('b'));
 
-Config::addArray(array('a' => 4, 'b' => 5), true);
+Config::addArray(array(
+    'a' => 4,
+    'b' => 5,
+    'test' => array(
+        'aaa' => array(
+            'bbb' => 1000
+        )
+    )
+), true);
 
 var_dump(Config::get('a'));
 var_dump(Config::get('b'));
@@ -22,3 +30,10 @@ Config::add('c', array('key5' => 'value5', 'key6' => 'value6'), false);
 var_dump(Config::get('c'));
 
 var_dump(Config::get('d', 'Init value'));
+
+var_dump(Config::get('test'));
+var_dump(Config::get('test.aaa'));
+var_dump(Config::get('test.aaa.bbb'));
+var_dump(Config::getInt('test.aaa.bbb'));
+var_dump(Config::getString('test.aaa.bbb'));
+var_dump(Config::getString('test.aaa.bbb.mmm'));

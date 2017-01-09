@@ -43,7 +43,49 @@ class Config
      */
     public static function get($key, $default_value = null)
     {
-        return isset(self::$_conf_arr[$key]) ? self::$_conf_arr[$key] : $default_value;
+        if (false === strpos($key, '.')) {
+            return isset(self::$_conf_arr[$key]) ? self::$_conf_arr[$key] : $default_value;
+        } else {
+            $groups = explode('.', $key);
+            $value_node = self::$_conf_arr;
+            foreach ($groups as $group_name) {
+                if (!isset($value_node[$group_name])) {
+                    return $default_value;
+                }
+                $value_node = $value_node[$group_name];
+            }
+            return $value_node;
+        }
+    }
+
+    /**
+     * 获取一个配置，并且强转成int型
+     * @param string $key 配置名
+     * @param int $default_value 默认值
+     * @param int $min_value 最小值
+     * @param int $max_value 最大值
+     * @return int
+     * @throws InvalidConfigException
+     */
+    public static function getInt($key, $default_value = 0, $min_value = 0, $max_value = PHP_INT_MAX)
+    {
+        $re = (int)self::get($key, $default_value);
+        if ($re < $min_value || $re > $max_value) {
+            throw new InvalidConfigException($key . ' value allowed ' . $min_value . ' to ' . $max_value);
+        }
+        return $re;
+    }
+
+    /**
+     * 获取一个配置，并且移除两边的空格
+     * @param string $key 配置名
+     * @param string $default_value
+     * @return string
+     */
+    public static function getString($key, $default_value = '')
+    {
+        $re = (string)self::get($key, $default_value);
+        return trim($re);
     }
 
     /**
