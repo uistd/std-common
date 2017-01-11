@@ -137,4 +137,14 @@ class Str
         $str = str_replace(' ', '', $str);
         return $uppercase_first ? $str : lcfirst($str);
     }
+
+    /**
+     * 是否是合法的PHP类名
+     * @param string $str
+     * @return bool 
+     */
+    public static function isValidClassName($str)
+    {
+        return preg_match('/^\\?[a-zA-Z_][a-zA-Z_0-9\\]*$/', $str);
+    }
 }
