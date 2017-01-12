@@ -60,9 +60,10 @@ abstract class Factory
         } else {
             $new_obj = self::defaultInstance($conf_arr);
         }
-        if ($new_obj) {
-            self::$object_arr[$config_name] = $new_obj;
+        if (null === $new_obj) {
+            throw new InvalidConfigException(self::$config_group . ':' . $config_name, 'Can not instance');
         }
+        self::$object_arr[$config_name] = $new_obj;
         return $new_obj;
     }
 
