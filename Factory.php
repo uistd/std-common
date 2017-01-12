@@ -12,11 +12,16 @@ abstract class Factory
      * @var string 配置组名
      */
     protected static $config_group = 'ffan';
-    
+
     /**
      * @var array 对象列表
      */
     protected static $object_arr;
+
+    /**
+     * @var array 支持事务的对象
+     */
+    protected static $trans_arr;
 
     /**
      * @var array 类名和配置名对应关系
@@ -27,11 +32,6 @@ abstract class Factory
      * @var bool 是否已经触发事件
      */
     private static $has_trigger = false;
-
-    /**
-     * @var bool 是否事务支持
-     */
-    private static $is_transaction = true;
 
     /**
      * @param string $config_name 配置名
@@ -46,21 +46,17 @@ abstract class Factory
      * @return object
      * @throws InvalidConfigException
      */
-    protected static function doInstance($config_name)
+    protected static function getInstance($config_name)
     {
+        if (isset(self::$object_arr[$config_name])) {
+            return self::$object_arr[$config_name];
+        }
         if (!is_string($config_name)) {
             throw new \InvalidArgumentException('config_name is not string');
         }
-        $conf_arr = Config::get(self::$config_group .':' . $config_name);
+        $conf_arr = Config::get(self::$config_group . ':' . $config_name);
         if (!is_array($conf_arr)) {
             $conf_arr = [];
-        }
-        //通过事件自动调用commit 和 rollback
-        if (self::$is_transaction && !self::$has_trigger) {
-            self::$has_trigger = true;
-            $eve_manager = EventManager::instance();
-            $eve_manager->attach('commit', [__CLASS__, 'commit'], PHP_INT_MAX);
-            $eve_manager->attach('rollback', [__CLASS__, 'rollback'], PHP_INT_MAX);
         }
         //如果指定了的类名
         if (isset($conf_arr['class_name'])) {
@@ -68,13 +64,11 @@ abstract class Factory
             //如果有别名，使用配置的别名
             if (isset(self::$class_alias[$class_name])) {
                 $class_name = self::$class_alias[$class_name];
-            }
-            elseif (!Str::isValidClassName($class_name)) {
-                throw new InvalidConfigException(self::$config_group .':' . $config_name . '.class_name', 'invalid class name!');
+            } elseif (!Str::isValidClassName($class_name)) {
+                throw new InvalidConfigException(self::$config_group . ':' . $config_name . '.class_name', 'invalid class name!');
             }
             $new_obj = new $class_name($config_name, $conf_arr);
-        }
-        else {
+        } else {
             $new_obj = self::defaultInstance($conf_arr);
         }
         return $new_obj;
@@ -89,21 +83,51 @@ abstract class Factory
     {
         return null;
     }
-    
+
+    /**
+     * 缓存实例
+     * @param string $config_name 配置名
+     * @param object $object
+     */
+    protected static function cacheInstance($config_name, $object)
+    {
+        self::$object_arr[$config_name] = $object;
+        //如果支持事务
+        if ($object instanceof Transaction) {
+            self::$trans_arr[] = $object;
+            
+        }
+    }
+
+    /**
+     * 设置事件
+     * @param Transaction $object
+     */
+    private static function attachEvent($object)
+    {
+        if (self::$has_trigger) {
+            return;
+        }
+        self::$has_trigger = true;
+        $priority = $object->getPriority();
+        $event = EventManager::instance();
+        $event->attach('commit', [__CLASS__, 'commit'], $priority);
+        $event->attach('rollback', [__CLASS__, 'rollback'], $priority);
+    }
+
     /**
      * commit
      */
     public static function commit()
     {
-        if (!self::$object_arr) {
+        if (!self::$trans_arr) {
             return;
         }
 
         /**
-         * @var string $name
          * @var Transaction $obj
          */
-        foreach (self::$object_arr as $name => $obj) {
+        foreach (self::$trans_arr as $obj) {
             $obj->rollback();
         }
     }
@@ -113,15 +137,14 @@ abstract class Factory
      */
     public static function rollback()
     {
-        if (!self::$object_arr) {
+        if (!self::$trans_arr) {
             return;
         }
 
         /**
-         * @var string $name
          * @var Transaction $obj
          */
-        foreach (self::$object_arr as $name => $obj) {
+        foreach (self::$trans_arr as $obj) {
             $obj->rollback();
         }
     }
