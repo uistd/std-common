@@ -1,6 +1,5 @@
 <?php
 namespace ffan\php\utils;
-use ffan\php\event\EventManager;
 
 /**
  * Class Factory 类工厂
@@ -61,6 +60,9 @@ abstract class Factory
         } else {
             $new_obj = self::defaultInstance($conf_arr);
         }
+        if ($new_obj) {
+            self::$object_arr[$config_name] = $new_obj;
+        }
         return $new_obj;
     }
 
@@ -71,20 +73,7 @@ abstract class Factory
      */
     protected static function defaultInstance($conf_arr)
     {
+        //子类实现
         return null;
-    }
-
-    /**
-     * 缓存实例
-     * @param string $config_name 配置名
-     * @param object $object
-     */
-    protected static function cacheInstance($config_name, $object)
-    {
-        self::$object_arr[$config_name] = $object;
-        //如果支持事务
-        if ($object instanceof Transaction) {
-            $object->attachEvent();
-        }
     }
 }

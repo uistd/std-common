@@ -14,9 +14,14 @@ class Transaction
     protected $trans_priority = 0;
 
     /**
-     * @var bool 是否已经设置监听事件
+     * Transaction constructor. 设置事件
      */
-    private $has_attach_flag = false;
+    public function __construct()
+    {
+        $event = EventManager::instance();
+        $event->attach('commit', [$this, 'commit'], $this->trans_priority);
+        $event->attach('rollback', [$this, 'rollback'], $this->trans_priority);
+    }
 
     /**
      * 构造时就提交
@@ -42,18 +47,5 @@ class Transaction
     public function rollback()
     {
 
-    }
-
-    /**
-     * 设置监听事件
-     */
-    public function attachEvent()
-    {
-        if ($this->has_attach_flag) {
-            return;
-        }
-        $event = EventManager::instance();
-        $event->attach('commit', [$this, 'commit'], $this->trans_priority);
-        $event->attach('rollback', [$this, 'rollback'], $this->trans_priority);
     }
 }
