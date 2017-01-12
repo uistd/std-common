@@ -1,5 +1,6 @@
 <?php
 namespace ffan\php\utils;
+use ffan\php\event\EventManager;
 
 /**
  * Class Transaction 事务接口
@@ -10,7 +11,12 @@ class Transaction
     /**
      * @var int 优化级
      */
-    private $trans_priority = 0;
+    protected $trans_priority = 0;
+
+    /**
+     * @var bool 是否已经设置监听事件
+     */
+    private $has_attach_flag = false;
 
     /**
      * 构造时就提交
@@ -39,24 +45,15 @@ class Transaction
     }
 
     /**
-     * 获取事务优化级
-     * @return int
+     * 设置监听事件
      */
-    public function getPriority()
+    public function attachEvent()
     {
-        return $this->trans_priority;
-    }
-
-    /**
-     * 设置优化级
-     * @param int $priority
-     */
-    public function setPriority($priority)
-    {
-        $priority = (int)$priority;
-        if ($priority < 0) {
-            $priority = 0;
+        if ($this->has_attach_flag) {
+            return;
         }
-        $this->trans_priority = $priority;
+        $event = EventManager::instance();
+        $event->attach('commit', [$this, 'commit'], $this->trans_priority);
+        $event->attach('rollback', [$this, 'rollback'], $this->trans_priority);
     }
 }

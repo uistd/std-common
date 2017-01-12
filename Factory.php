@@ -19,19 +19,9 @@ abstract class Factory
     protected static $object_arr;
 
     /**
-     * @var array 支持事务的对象
-     */
-    protected static $trans_arr;
-
-    /**
      * @var array 类名和配置名对应关系
      */
     private static $class_alias;
-
-    /**
-     * @var bool 是否已经触发事件
-     */
-    private static $has_trigger = false;
 
     /**
      * @param string $config_name 配置名
@@ -94,58 +84,7 @@ abstract class Factory
         self::$object_arr[$config_name] = $object;
         //如果支持事务
         if ($object instanceof Transaction) {
-            self::$trans_arr[] = $object;
-            
-        }
-    }
-
-    /**
-     * 设置事件
-     * @param Transaction $object
-     */
-    private static function attachEvent($object)
-    {
-        if (self::$has_trigger) {
-            return;
-        }
-        self::$has_trigger = true;
-        $priority = $object->getPriority();
-        $event = EventManager::instance();
-        $event->attach('commit', [__CLASS__, 'commit'], $priority);
-        $event->attach('rollback', [__CLASS__, 'rollback'], $priority);
-    }
-
-    /**
-     * commit
-     */
-    public static function commit()
-    {
-        if (!self::$trans_arr) {
-            return;
-        }
-
-        /**
-         * @var Transaction $obj
-         */
-        foreach (self::$trans_arr as $obj) {
-            $obj->rollback();
-        }
-    }
-
-    /**
-     * 全部rollback
-     */
-    public static function rollback()
-    {
-        if (!self::$trans_arr) {
-            return;
-        }
-
-        /**
-         * @var Transaction $obj
-         */
-        foreach (self::$trans_arr as $obj) {
-            $obj->rollback();
+            $object->attachEvent();
         }
     }
 }
