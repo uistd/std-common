@@ -58,7 +58,7 @@ abstract class Factory
             }
             $new_obj = new $class_name($config_name, $conf_arr);
         } else {
-            $new_obj = self::defaultInstance($conf_arr);
+            $new_obj = self::defaultInstance($config_name, $conf_arr);
         }
         if (null === $new_obj) {
             throw new InvalidConfigException(self::$config_group . ':' . $config_name, 'Can not instance');
@@ -69,10 +69,11 @@ abstract class Factory
 
     /**
      * 根据配置手动加载类
+     * @param string $config_name 配置名
      * @param array $conf_arr 配置
      * @return object
      */
-    protected static function defaultInstance($conf_arr)
+    protected static function defaultInstance($config_name, $conf_arr)
     {
         //子类实现
         return null;
