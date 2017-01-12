@@ -20,7 +20,7 @@ abstract class Factory
     /**
      * @var array 类名和配置名对应关系
      */
-    private static $class_alias;
+    protected static $class_alias;
 
     /**
      * @param string $config_name 配置名
