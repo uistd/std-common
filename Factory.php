@@ -25,7 +25,7 @@ abstract class Factory
     /**
      * @param string $config_name 配置名
      */
-    protected static function get($config_name)
+    public static function get($config_name)
     {
         //子类实现
     }
