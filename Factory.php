@@ -43,7 +43,7 @@ abstract class Factory
         if (!is_string($config_name)) {
             throw new \InvalidArgumentException('config_name is not string');
         }
-        $conf_arr = Config::get(self::$config_group . ':' . $config_name);
+        $conf_arr = Config::get(self::configGroupName($config_name));
         if (!is_array($conf_arr)) {
             $conf_arr = [];
         }
@@ -54,14 +54,14 @@ abstract class Factory
             if (isset(self::$class_alias[$class_name])) {
                 $class_name = self::$class_alias[$class_name];
             } elseif (!Str::isValidClassName($class_name)) {
-                throw new InvalidConfigException(self::$config_group . ':' . $config_name . '.class_name', 'invalid class name!');
+                throw new InvalidConfigException(self::configGroupName($config_name, 'class_name'), 'invalid class name!');
             }
             $new_obj = new $class_name($config_name, $conf_arr);
         } else {
             $new_obj = self::defaultInstance($config_name, $conf_arr);
         }
         if (null === $new_obj) {
-            throw new InvalidConfigException(self::$config_group . ':' . $config_name, 'Can not instance');
+            throw new InvalidConfigException(self::configGroupName($config_name), 'Can not instance');
         }
         self::$object_arr[$config_name] = $new_obj;
         return $new_obj;
@@ -77,5 +77,20 @@ abstract class Factory
     {
         //子类实现
         return null;
+    }
+
+    /**
+     * 一般用于打印某个config key
+     * @param string $config_name 配置主项
+     * @param null|string $sub_key 配置子项
+     * @return string
+     */
+    public static function configGroupName($config_name, $sub_key = null)
+    {
+        $re_str = self::$config_group . ':' . $config_name;
+        if (null !== $sub_key) {
+            $re_str .= '.' . $sub_key;
+        }
+        return $re_str;
     }
 }
