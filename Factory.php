@@ -48,13 +48,13 @@ abstract class Factory
             $conf_arr = [];
         }
         //如果指定了的类名
-        if (isset($conf_arr['class_name'])) {
-            $class_name = $conf_arr['class_name'];
+        if (isset($conf_arr['class'])) {
+            $class_name = $conf_arr['class'];
             //如果有别名，使用配置的别名
             if (isset(static::$class_alias[$class_name])) {
                 $class_name = static::$class_alias[$class_name];
             } elseif (!Str::isValidClassName($class_name)) {
-                throw new InvalidConfigException(self::configGroupName($config_name, 'class_name'), 'invalid class name!');
+                throw new InvalidConfigException(self::configGroupName($config_name, 'class'), 'invalid class name!');
             }
             $new_obj = new $class_name($config_name, $conf_arr);
         } else {
