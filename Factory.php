@@ -37,8 +37,8 @@ abstract class Factory
      */
     protected static function getInstance($config_name)
     {
-        if (isset(self::$object_arr[$config_name])) {
-            return self::$object_arr[$config_name];
+        if (isset(static::$object_arr[$config_name])) {
+            return static::$object_arr[$config_name];
         }
         if (!is_string($config_name)) {
             throw new \InvalidArgumentException('config_name is not string');
@@ -51,19 +51,19 @@ abstract class Factory
         if (isset($conf_arr['class_name'])) {
             $class_name = $conf_arr['class_name'];
             //如果有别名，使用配置的别名
-            if (isset(self::$class_alias[$class_name])) {
-                $class_name = self::$class_alias[$class_name];
+            if (isset(static::$class_alias[$class_name])) {
+                $class_name = static::$class_alias[$class_name];
             } elseif (!Str::isValidClassName($class_name)) {
                 throw new InvalidConfigException(self::configGroupName($config_name, 'class_name'), 'invalid class name!');
             }
             $new_obj = new $class_name($config_name, $conf_arr);
         } else {
-            $new_obj = self::defaultInstance($config_name, $conf_arr);
+            $new_obj = static::defaultInstance($config_name, $conf_arr);
         }
         if (null === $new_obj) {
             throw new InvalidConfigException(self::configGroupName($config_name), 'Can not instance');
         }
-        self::$object_arr[$config_name] = $new_obj;
+        static::$object_arr[$config_name] = $new_obj;
         return $new_obj;
     }
 
@@ -87,7 +87,7 @@ abstract class Factory
      */
     public static function configGroupName($config_name, $sub_key = null)
     {
-        $re_str = self::$config_group . ':' . $config_name;
+        $re_str = static::$config_group . ':' . $config_name;
         if (null !== $sub_key) {
             $re_str .= '.' . $sub_key;
         }
