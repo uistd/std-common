@@ -9,9 +9,6 @@ use ffan\php\event\EventManager;
  */
 class Transaction extends EventDriver
 {
-    /** 优化级最大值 */
-    const MAX_PRIORITY = 100000;
-
     /**
      * @var int 优化级
      */
@@ -29,8 +26,8 @@ class Transaction extends EventDriver
     {
         parent::__construct();
         $event = EventManager::instance();
-        $event->attach('commit', [$this, 'commit_event'], $this->trans_priority);
-        $event->attach('rollback', [$this, 'rollback']);
+        $event->attach(EventDriver::EVENT_COMMIT, [$this, 'commit_event'], $this->trans_priority);
+        $event->attach(EventDriver::EVENT_ROLLBACK, [$this, 'rollback']);
     }
 
     /**

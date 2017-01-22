@@ -1,6 +1,8 @@
 <?php
 namespace ffan\php\utils;
 
+use ffan\php\event\EventManager;
+
 require_once '../vendor/autoload.php';
 
 /**
@@ -51,3 +53,17 @@ $test_c = new TransEvent('C');
 $test_a->work();
 $test_b->work();
 $test_c->work();
+
+$test_d = new TransEvent('d');
+$test_e = new TransEvent('e');
+$test_f = new TransEvent('f');
+
+$test_d->setTransPriority(100);
+$test_e->setTransPriority(60);
+$test_f->setTransPriority(20);
+
+$test_d->work();
+$test_e->work();
+$test_f->work();
+
+EventManager::instance()->trigger(EventDriver::EVENT_COMMIT);
