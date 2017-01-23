@@ -46,7 +46,16 @@ class Transaction extends EventDriver
     public function commit_event()
     {
         $this->is_catch_commit_event = true;
+        $this->beforeCommit();
         $this->commit();
+    }
+
+    /**
+     * 提交前的动作，一般用于将数据写入依赖的组件
+     */
+    public function beforeCommit()
+    {
+        
     }
 
     /**
