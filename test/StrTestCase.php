@@ -32,3 +32,11 @@ var_dump(Str::split('|1, 2,3, 4', ',', Str::TRIM | Str::IGNORE_EMPTY | Str::INTV
 $str = 'member_view_detail';
 echo Str::camelName($str), PHP_EOL;
 echo Str::camelName($str, false), PHP_EOL;
+
+$replace_arr = array(
+    'name' => 'bluebird',
+    'weekday' => 'Friday',
+    'time' => ' PM 5:30'
+);
+
+echo Str::tplReplace('Welcome {name}, now is {weekday}{time}, Happy weekend.this is a {jok}', $replace_arr), PHP_EOL;

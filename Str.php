@@ -141,10 +141,57 @@ class Str
     /**
      * 是否是合法的PHP类名
      * @param string $str
-     * @return bool 
+     * @return bool
      */
     public static function isValidClassName($str)
     {
         return preg_match('/^\\\?[a-zA-Z_][a-zA-Z_0-9\\\]*$/', $str);
+    }
+
+    /**
+     * 将一个字符串模板替换其中变量
+     * @param string $tpl_str 字符串模板
+     * @param array $data_arr 变量数组
+     * @param string $prefix_tag 变更前缀符
+     * @param string $suffix_tag 变更后缀符
+     * @return string
+     */
+    public static function tplReplace($tpl_str, array $data_arr = [], $prefix_tag = '{', $suffix_tag = '}')
+    {
+        $replace = array();
+        $re = preg_match_all('/\\' . $prefix_tag . '([a-zA-Z_][a-zA-Z_0-9]*)\\' . $suffix_tag . '/', $tpl_str, $match_arr);
+        if (!$re) {
+            return $tpl_str;
+        }
+        $tmp_var_arr = $match_arr[0];
+        //循环所有匹配的变量
+        foreach ($match_arr[1] as $index => $name) {
+            if (!isset($data_arr[$name])) {
+                continue;
+            }
+            $val = $data_arr[$name];
+            if (!is_string($val) && !method_exists($val, '__toString')) {
+                $type = gettype($val);
+                switch ($type) {
+                    case 'bool':
+                        $val = $val ? 'true' : 'false';
+                        break;
+                    case 'NULL':
+                        $val = 'NULL';
+                        break;
+                    case 'integer':
+                    case 'double':
+                        $val = (string)$val;
+                        break;
+                    case 'resource':
+                        $val = 'Resource:' . get_resource_type($val);
+                        break;
+                    default:
+                        $val = json_encode($val);
+                }
+            }
+            $replace[$tmp_var_arr[$index]] = $val;
+        }
+        return strtr($tpl_str, $replace);
     }
 }
