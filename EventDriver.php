@@ -16,6 +16,12 @@ class EventDriver
     /** commit事件 */
     const EVENT_COMMIT = 'commit';
 
+    /** commit事件之前 */
+    const EVENT_BEFORE_COMMIT = 'before_commit';
+    
+    /** commit事件之后 */
+    const EVENT_AFTER_COMMIT = 'after_commit';
+
     /** 回滚事件 */
     const EVENT_ROLLBACK = 'rollback';
 
