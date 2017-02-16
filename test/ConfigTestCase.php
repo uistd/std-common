@@ -9,18 +9,30 @@ Config::addArray(array('a' => 3, 'b' => 4));
 var_dump(Config::get('a'));
 var_dump(Config::get('b'));
 
+Config::add('arr', array('key1' => 'a1', 'key2' => 'a2'));
+
 Config::addArray(array(
     'a' => 4,
     'b' => 5,
-    'test' => array(
-        'aaa' => array(
-            'bbb' => 1000
-        )
+    'arr' => array(
+        'key3' => 'a3',
+        'key4' => 'a4'
     )
 ), true);
 
 var_dump(Config::get('a'));
 var_dump(Config::get('b'));
+
+print_r(Config::get('arr'));
+
+Config::addArray(array(
+    'arr' => array(
+        'key5' => 'a5',
+        'key6' => 'a6'
+    )
+));
+
+print_r(Config::get('arr'));
 
 Config::add('c', array('key1' => 'value1', 'key2' => 'value2'));
 var_dump(Config::get('c'));

@@ -6,17 +6,26 @@ class Config
     private static $_conf_arr = array();
 
     /**
-     * 初始化一整个数组
+     * 在现有config基础上添加一个数组
      * 数组需要是 key => value的
      * @param array $conf_arr
      * @param bool $recover_exist_key 如果已经有key存在了，是否覆盖
      */
     public static function addArray(array $conf_arr, $recover_exist_key = false)
     {
+        //直接覆盖
         if ($recover_exist_key) {
             self::$_conf_arr = array_merge(self::$_conf_arr, $conf_arr);
-        } else {
-            self::$_conf_arr += $conf_arr;
+        } //合并
+        else {
+            foreach ($conf_arr as $name => $value) {
+                //如果value是数组
+                if (is_array($value) && isset(self::$_conf_arr[$name]) && is_array(self::$_conf_arr[$name])) {
+                    self::$_conf_arr[$name] = array_merge(self::$_conf_arr[$name], $value);
+                } else {
+                    self::$_conf_arr[$name] = $value;
+                }
+            }
         }
     }
 
