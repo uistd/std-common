@@ -140,4 +140,14 @@ class Env
     {
         return 'cli' === PHP_SAPI;
     }
+
+    /**
+     * 是否是浏览器 XMLHttpRequest发出的请求
+     * @return bool
+     */
+    public static function isAjaxRequest()
+    {
+        return isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] )
+        && 'xmlhttprequest' === strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] );
+    }
 }

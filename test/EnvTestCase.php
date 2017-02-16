@@ -16,3 +16,5 @@ var_dump(Env::getEnv());
 echo Env::getCharset(), PHP_EOL;
 echo Env::getTimezone(), PHP_EOL;
 echo Env::getRuntimePath(), PHP_EOL;
+
+var_dump(Env::isAjaxRequest());
