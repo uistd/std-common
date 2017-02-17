@@ -89,7 +89,7 @@ class Utils
     }
 
     /**
-     * 将文件
+     * 将文件格式化表示转换成byte(10Kb 输出 10240)
      * @param string|int $size_str 大小
      * @return int
      */
@@ -120,7 +120,7 @@ class Utils
     }
 
     /**
-     * 文件大小格式化输出
+     * 文件大小格式化输出(10240 输出 10K )
      * @param int $file_size
      * @param int $precision 小数点位数
      * @param int $unit_type 单位格式 1：首字母大写 2：全部大写 其它：全部小写
