@@ -25,3 +25,37 @@ try{
 } catch( \RuntimeException $exp){
     echo $exp->getMessage(), PHP_EOL;
 }
+
+var_dump(Utils::fileSizeFormat(0));
+
+var_dump(Utils::fileSizeFormat(100));
+
+var_dump(Utils::fileSizeFormat(1024));
+
+var_dump(Utils::fileSizeFormat(1224));
+
+var_dump(Utils::fileSizeFormat(1024*1024));
+
+var_dump(Utils::fileSizeFormat(1024*1024 + 200*1024));
+
+var_dump(Utils::fileSizeFormat(1024*1024*1024));
+
+var_dump(Utils::fileSizeFormat(1024*1024*1024*3 + 1024 * 1024 * 300, 3, 2));
+
+var_dump(Utils::fileSizeFormat(1024*1024*1024*1024 * 5));
+
+var_dump(Utils::fileSizeFormat(1024*1024*1024*1024 + 1024 * 1024 * 1024 * 20));
+
+var_dump(Utils::fileSizeFormat(1024*1024*1024*1024*1024 * 3));
+
+var_dump(Utils::fileSizeToByte('3Kb'));
+
+var_dump(Utils::fileSizeToByte('3mb'));
+
+var_dump(Utils::fileSizeToByte('3g'));
+
+var_dump(Utils::fileSizeToByte('3t'));
+
+var_dump(Utils::fileSizeToByte('3p'));
+
+var_dump(Utils::fileSizeToByte('3byte'));
