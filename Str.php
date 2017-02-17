@@ -145,7 +145,7 @@ class Str
      */
     public static function isValidClassName($str)
     {
-        return preg_match('/^\\\?[a-zA-Z_][a-zA-Z_0-9\\\]*$/', $str) > 0;
+        return is_string($str) && preg_match('/^\\\?[a-zA-Z_][a-zA-Z_0-9\\\]*$/', $str) > 0;
     }
 
     /**
@@ -155,7 +155,7 @@ class Str
      */
     public static function isValidVarName($str)
     {
-        return preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $str) > 0;
+        return is_string($str) && preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $str) > 0;
     }
 
     /**
