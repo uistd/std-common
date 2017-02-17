@@ -40,3 +40,8 @@ $replace_arr = array(
 );
 
 echo Str::tplReplace('Welcome {name}, now is {weekday}{time}, Happy weekend.this is a {jok}', $replace_arr), PHP_EOL;
+
+var_dump(Str::isValidVarName('aaabbbAA_'));
+var_dump(Str::isValidVarName('_0s'));
+var_dump(Str::isValidVarName('0s'));
+var_dump(Str::isValidVarName('s00000'));

@@ -140,12 +140,22 @@ class Str
 
     /**
      * 是否是合法的PHP类名
-     * @param string $str
+     * @param string $str 类名
      * @return bool
      */
     public static function isValidClassName($str)
     {
-        return preg_match('/^\\\?[a-zA-Z_][a-zA-Z_0-9\\\]*$/', $str);
+        return preg_match('/^\\\?[a-zA-Z_][a-zA-Z_0-9\\\]*$/', $str) > 0;
+    }
+
+    /**
+     * 是否是合法的变量名
+     * @param string $str 变量名
+     * @return bool
+     */
+    public static function isValidVarName($str)
+    {
+        return preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $str) > 0;
     }
 
     /**
