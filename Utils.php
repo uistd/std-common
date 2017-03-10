@@ -63,6 +63,9 @@ class Utils
     public static function fixWithRuntimePath($path)
     {
         $path = trim($path);
+        if (0 === strlen($path)) {
+            return Env::getRuntimePath();
+        }
         if (DIRECTORY_SEPARATOR !== $path[strlen($path) - 1]) {
             $path .= DIRECTORY_SEPARATOR;
         }
