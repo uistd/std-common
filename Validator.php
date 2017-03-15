@@ -145,4 +145,14 @@ class Validator
     {
         return false !== ip2long($ip);
     }
+
+    /**
+     * 电话号码
+     * @param string $phone_number
+     * @return bool
+     */
+    public static function isPhone($phone_number)
+    {
+        return preg_match('/^\d{3}-\d{8}|\d{4}-\d{7}$/', $phone_number) > 0;
+    }
 }

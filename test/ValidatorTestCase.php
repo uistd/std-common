@@ -50,3 +50,9 @@ var_dump(Validator::isDate('2017/12/12'));
 var_dump(Validator::isDateTime('2017/12/12 12:00:21'));
 
 var_dump(Validator::isDateTime('2017/12/12 12:01'));
+
+var_dump(Validator::isPhone('021-31992288'));
+
+var_dump(Validator::isPhone('021-31992288-2903'));
+
+var_dump(Validator::isPhone('021 31992288'));
