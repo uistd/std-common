@@ -131,6 +131,20 @@ class Env
         self::$_runtime_path = $runtime_path;
         return $runtime_path;
     }
+    
+    /**
+     * 获取应用的根目录
+     * @return string
+     */
+    public static function getRootPath()
+    {
+        if (defined('ROOT_PATH')) {
+            return ROOT_PATH;
+        }
+        //root_path/vendor/ffan/php/utils/Env.php
+        $root_path = str_replace('vendor/ffan/php/utils', '', __DIR__);
+        return $root_path;
+    }
 
     /**
      * PHP SAPI是否是CLI方式
