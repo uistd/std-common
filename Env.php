@@ -1,4 +1,5 @@
 <?php
+
 namespace ffan\php\utils;
 
 /**
@@ -105,16 +106,21 @@ class Env
         if (null !== self::$_runtime_path) {
             return self::$_runtime_path;
         }
-        $runtime_path = Config::get('runtime_path', '/var/log/');
-        if (!is_string($runtime_path)) {
-            $runtime_path = self::$_runtime_path;
+        $apc_flag = self::apcSupport();
+        if ($apc_flag) {
+            $cache_key = 'ffan-evn-runtime' . self::configVer();
+            $re = apc_fetch($cache_key);
+            if (false !== $re) {
+                self::$_runtime_path = $re;
+                return $re;
+            }
         }
-        $runtime_path = trim($runtime_path);
-        if (0 == strlen($runtime_path)) {
-            throw new \RuntimeException('runtime_path:' . $runtime_path . ' is empty');
+        $runtime_path = Config::getString('runtime_path', 'runtime');
+        if (empty($runtime_path)) {
+            $runtime_path = 'runtime';
         }
         if (DIRECTORY_SEPARATOR !== $runtime_path[0]) {
-            throw new \RuntimeException('runtime_path:' . $runtime_path . ' is not absolute path!');
+            $runtime_path = self::getRootPath() . $runtime_path;
         }
         if (!is_dir($runtime_path) && !mkdir($runtime_path, 0755, true)) {
             throw new \RuntimeException('Env runtime_path:' . $runtime_path . ' is not exist');
@@ -128,10 +134,40 @@ class Env
         if (DIRECTORY_SEPARATOR !== $runtime_path[$len - 1]) {
             $runtime_path .= DIRECTORY_SEPARATOR;
         }
+        if ($apc_flag) {
+            /** @var string $cache_key */
+            apc_store($cache_key, $runtime_path);
+        }
         self::$_runtime_path = $runtime_path;
         return $runtime_path;
     }
-    
+
+    /**
+     * 获取配置版本
+     * @return string
+     */
+    public static function configVer()
+    {
+        static $ver = null;
+        if (null === $ver) {
+            $ver = Config::getString('config_ver', '');
+        }
+        return $ver;
+    }
+
+    /**
+     * 是否开启的apc
+     * @return bool
+     */
+    public static function apcSupport()
+    {
+        static $flag = null;
+        if (null === $flag) {
+            $flag = extension_loaded('apc');
+        }
+        return $flag;
+    }
+
     /**
      * 获取应用的根目录
      * @return string
@@ -161,7 +197,7 @@ class Env
      */
     public static function isAjaxRequest()
     {
-        return isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] )
-        && 'xmlhttprequest' === strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] );
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && 'xmlhttprequest' === strtolower($_SERVER['HTTP_X_REQUESTED_WITH']);
     }
 }
