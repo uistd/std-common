@@ -1,4 +1,5 @@
 <?php
+
 namespace ffan\php\utils;
 
 /**
@@ -71,6 +72,26 @@ class Utils
         }
         if (DIRECTORY_SEPARATOR !== $path[0]) {
             $path = Env::getRuntimePath() . $path;
+        }
+        return $path;
+    }
+
+    /**
+     * 当传入的路径不是绝对路径时，前路径使用 root_path 路径补全
+     * @param string $path 目录
+     * @return string
+     */
+    public static function fixWithRootPath($path)
+    {
+        $path = trim($path);
+        if (0 === strlen($path)) {
+            return Env::getRootPath();
+        }
+        if (DIRECTORY_SEPARATOR !== $path[strlen($path) - 1]) {
+            $path .= DIRECTORY_SEPARATOR;
+        }
+        if (DIRECTORY_SEPARATOR !== $path[0]) {
+            $path = Env::getRootPath() . $path;
         }
         return $path;
     }
