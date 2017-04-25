@@ -34,7 +34,6 @@ class Config
      * @param string $key 配置名
      * @param mixed $conf
      * @param bool $recover_exist_key 如果已经有key存在了，是否覆盖
-     * @return null
      */
     public static function add($key, $conf, $recover_exist_key = true)
     {
