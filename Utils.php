@@ -95,6 +95,28 @@ class Utils
         }
         return $path;
     }
+    
+    /**
+     * 修正路径、保证最后一位是 / 号
+     * @param string $path
+     * @return string
+     */
+    public static function fixPath($path)
+    {
+        if (!is_string($path)) {
+            return '';
+        }
+        $path = trim($path);
+        $len = strlen($path);
+        //如果是空，不处理
+        if (0 === $len) {
+            return $path;
+        }
+        if (DIRECTORY_SEPARATOR !== $path[$len - 1]) {
+            $path .= DIRECTORY_SEPARATOR;
+        }
+        return $path;
+    }
 
     /**
      * 判断目录是否有写入权限
