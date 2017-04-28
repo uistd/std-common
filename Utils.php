@@ -11,7 +11,7 @@ class Utils
     /**
      * 默认的trim的第二个参数
      */
-    const DEFAULT_TRIM = "\t\n\r\0\x0B\"";
+    const DEFAULT_TRIM = " \t\n\r\0\x0B\"";
 
     /**
      * 连接两个目录
