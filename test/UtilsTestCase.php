@@ -26,27 +26,27 @@ try{
     echo $exp->getMessage(), PHP_EOL;
 }
 
-var_dump(Utils::fileSizeFormat(0));
+var_dump(Utils::sizeFormat(0));
 
-var_dump(Utils::fileSizeFormat(100));
+var_dump(Utils::sizeFormat(100));
 
-var_dump(Utils::fileSizeFormat(1024));
+var_dump(Utils::sizeFormat(1024));
 
-var_dump(Utils::fileSizeFormat(1224));
+var_dump(Utils::sizeFormat(1224));
 
-var_dump(Utils::fileSizeFormat(1024*1024));
+var_dump(Utils::sizeFormat(1024*1024));
 
-var_dump(Utils::fileSizeFormat(1024*1024 + 200*1024));
+var_dump(Utils::sizeFormat(1024*1024 + 200*1024));
 
-var_dump(Utils::fileSizeFormat(1024*1024*1024));
+var_dump(Utils::sizeFormat(1024*1024*1024));
 
-var_dump(Utils::fileSizeFormat(1024*1024*1024*3 + 1024 * 1024 * 300, 3, 2));
+var_dump(Utils::sizeFormat(1024*1024*1024*3 + 1024 * 1024 * 300, 3, 2));
 
-var_dump(Utils::fileSizeFormat(1024*1024*1024*1024 * 5));
+var_dump(Utils::sizeFormat(1024*1024*1024*1024 * 5));
 
-var_dump(Utils::fileSizeFormat(1024*1024*1024*1024 + 1024 * 1024 * 1024 * 20));
+var_dump(Utils::sizeFormat(1024*1024*1024*1024 + 1024 * 1024 * 1024 * 20));
 
-var_dump(Utils::fileSizeFormat(1024*1024*1024*1024*1024 * 3));
+var_dump(Utils::sizeFormat(1024*1024*1024*1024*1024 * 3));
 
 var_dump(Utils::fileSizeToByte('3Kb'));
 

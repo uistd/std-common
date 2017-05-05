@@ -166,35 +166,35 @@ class Utils
     }
 
     /**
-     * 文件大小格式化输出(10240 输出 10K )
-     * @param int $file_size
+     * 大小格式化输出(10240 输出 10K )
+     * @param int $size
      * @param int $precision 小数点位数
      * @param int $unit_type 单位格式 1：首字母大写 2：全部大写 其它：全部小写
      * @return string
      */
-    public static function fileSizeFormat($file_size, $precision = 2, $unit_type = 1)
+    public static function sizeFormat($size, $precision = 2, $unit_type = 1)
     {
-        $file_size = (int)$file_size;
-        if ($file_size <= 0) {
+        $size = (int)$size;
+        if ($size <= 0) {
             return '0';
         }
-        if ($file_size < 0x400) {
-            $size_str = (string)$file_size;
+        if ($size < 0x400) {
+            $size_str = (string)$size;
             $unit = 'byte';
-        } elseif ($file_size < 0x100000) {
-            $size_str = $file_size / 0x400;
+        } elseif ($size < 0x100000) {
+            $size_str = $size / 0x400;
             $unit = 'kb';
-        } elseif ($file_size < 0x40000000) {
-            $size_str = $file_size / 0x100000;
+        } elseif ($size < 0x40000000) {
+            $size_str = $size / 0x100000;
             $unit = 'mb';
-        } elseif ($file_size < 0x10000000000) {
-            $size_str = $file_size / 0x40000000;
+        } elseif ($size < 0x10000000000) {
+            $size_str = $size / 0x40000000;
             $unit = 'gb';
-        } elseif ($file_size < 0x4000000000000) {
-            $size_str = $file_size / 0x10000000000;
+        } elseif ($size < 0x4000000000000) {
+            $size_str = $size / 0x10000000000;
             $unit = 'tb';
         } else {
-            $size_str = $file_size / 0x4000000000000;
+            $size_str = $size / 0x4000000000000;
             $unit = 'pb';
         }
         $size_str = round($size_str, $precision);

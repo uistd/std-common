@@ -38,7 +38,7 @@ class Ip
             $client_ip = $_SERVER['HTTP_CLIENT_IP'];
         } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && 0 != strcasecmp($_SERVER['HTTP_X_FORWARDED_FOR'], $except)) {
             $client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-            //非常特殊的情况，ip地址中间有逗号，取第1个就可以了
+            //特殊的情况，ip地址中间有逗号，取第1个就可以了
             $pos = strpos($client_ip, ',');
             if (false !== $pos) {
                 $client_ip = substr($client_ip, 0, $pos);
