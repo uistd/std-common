@@ -10,14 +10,14 @@ class Debug
     /**
      * @var array 计时器数组
      */
-    private static $_timer_arr = [];
+    private static $timer_arr = [];
 
     /**
      * 开始计时
      */
     public static function timerStart()
     {
-        self::$_timer_arr[] = microtime(true);
+        self::$timer_arr[] = microtime(true);
     }
 
     /**
@@ -27,10 +27,10 @@ class Debug
      */
     public static function timerStop($precision = 2)
     {
-        if (empty(self::$_timer_arr)) {
+        if (empty(self::$timer_arr)) {
             return '';
         }
-        $beg_time = array_pop(self::$_timer_arr);
+        $beg_time = array_pop(self::$timer_arr);
         $end_time = microtime(true);
         $result = round(($end_time - $beg_time) * 1000, $precision) . 'ms';
         return $result;
