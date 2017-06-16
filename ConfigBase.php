@@ -74,4 +74,18 @@ abstract class ConfigBase
         $value = (string)$this->config_arr[$name];
         return trim($value);
     }
+
+    /**
+     * 获取一个配置荐，强转成bool
+     * @param string $name
+     * @param bool $default
+     * @return bool
+     */
+    protected function getConfigBool($name, $default = false)
+    {
+        if (!isset($this->config_arr[$name])) {
+            return (bool)$default;
+        }
+        return (bool)$this->config_arr[$name];
+    }
 }
