@@ -133,8 +133,10 @@ class Str
      */
     public static function camelName($str, $uppercase_first = true)
     {
-        $str = ucwords(str_replace('_', ' ', $str));
-        $str = str_replace(' ', '', $str);
+        if (false !== strpos($str, '_')) {
+            $str = ucwords(str_replace('_', ' ', $str));
+            $str = str_replace(' ', '', $str);
+        }
         return $uppercase_first ? $str : lcfirst($str);
     }
 
