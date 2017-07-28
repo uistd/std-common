@@ -95,7 +95,7 @@ class Utils
         }
         return $path;
     }
-    
+
     /**
      * 修正路径、保证最后一位是 / 号
      * @param string $path
@@ -204,5 +204,43 @@ class Utils
             $unit = strtoupper($unit);
         }
         return $size_str . $unit;
+    }
+
+    /**
+     * 删除一个目录
+     * @param string $dir 目录
+     * @return bool
+     */
+    public static function delDir($dir)
+    {
+        if (!is_dir($dir) || !is_writable($dir)) {
+            return false;
+        }
+        return self::doDelDir($dir);
+    }
+
+    /**
+     * 删除目录
+     * @param string $dir
+     * @return bool
+     */
+    private static function doDelDir($dir)
+    {
+        $dh = opendir($dir);
+        while ($file = readdir($dh)) {
+            if ('.' === $file || '..' === $file) {
+                continue;
+            }
+            $fill_file = $dir . '/' . $file;
+            if (is_dir($fill_file)) {
+                self::doDelDir($fill_file);
+            } else {
+                if (!unlink($fill_file)) {
+                    return false;
+                }
+            }
+        }
+        closedir($dh);
+        return rmdir($dir);
     }
 }

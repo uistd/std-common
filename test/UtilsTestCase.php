@@ -59,3 +59,5 @@ var_dump(Utils::fileSizeToByte('3t'));
 var_dump(Utils::fileSizeToByte('3p'));
 
 var_dump(Utils::fileSizeToByte('3byte'));
+
+var_dump(Utils::delDir(__DIR__ .'/del_test'));
