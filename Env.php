@@ -106,21 +106,21 @@ class Env
         if (null !== self::$_runtime_path) {
             return self::$_runtime_path;
         }
-        $apc_flag = self::apcSupport();
-        if ($apc_flag) {
-            $cache_key = 'ffan-evn-runtime' . self::configVer();
-            $re = apc_fetch($cache_key);
-            if (false !== $re) {
-                self::$_runtime_path = $re;
-                return $re;
-            }
-        }
         $runtime_path = Config::getString('runtime_path', 'runtime');
         if (empty($runtime_path)) {
             $runtime_path = 'runtime';
         }
         if (DIRECTORY_SEPARATOR !== $runtime_path[0]) {
-            $runtime_path = self::getRootPath() . $runtime_path;
+            $runtime_path = Utils::joinPath(self::getRootPath(), $runtime_path);
+        }
+        $apc_flag = self::apcSupport();
+        if ($apc_flag) {
+            $cache_key = 'dir-chk-' . $runtime_path;
+            $re = apc_fetch($cache_key);
+            if (true === $re) {
+                self::$_runtime_path = $runtime_path;
+                return $runtime_path;
+            }
         }
         if (!is_dir($runtime_path) && !mkdir($runtime_path, 0755, true)) {
             throw new \RuntimeException('Env runtime_path:' . $runtime_path . ' is not exist');
@@ -129,14 +129,9 @@ class Env
         if (!is_writable($runtime_path)) {
             throw new \RuntimeException('Env runtime_path:' . $runtime_path . ' is not writable');
         }
-        $len = strlen($runtime_path);
-        //补全目录路径
-        if (DIRECTORY_SEPARATOR !== $runtime_path[$len - 1]) {
-            $runtime_path .= DIRECTORY_SEPARATOR;
-        }
         if ($apc_flag) {
             /** @var string $cache_key */
-            apc_store($cache_key, $runtime_path);
+            apc_store($cache_key, true);
         }
         self::$_runtime_path = $runtime_path;
         return $runtime_path;

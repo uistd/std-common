@@ -4,8 +4,8 @@
  */
 namespace ffan\php\utils;
 
-require_once '../Env.php';
 require_once '../Config.php';
+require_once '../vendor/autoload.php';
 
 error_reporting(-1);
 var_dump(Env::isDev());
