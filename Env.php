@@ -113,6 +113,10 @@ class Env
         if (DIRECTORY_SEPARATOR !== $runtime_path[0]) {
             $runtime_path = Utils::joinPath(self::getRootPath(), $runtime_path);
         }
+        //补全目录路径
+        if (DIRECTORY_SEPARATOR !== $runtime_path[strlen($runtime_path) - 1]) {
+            $runtime_path .= DIRECTORY_SEPARATOR;
+        }
         $apc_flag = self::apcSupport();
         if ($apc_flag) {
             $cache_key = 'dir-chk-' . $runtime_path;
