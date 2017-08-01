@@ -231,11 +231,11 @@ class Utils
             if ('.' === $file || '..' === $file) {
                 continue;
             }
-            $fill_file = $dir . '/' . $file;
-            if (is_dir($fill_file)) {
-                self::doDelDir($fill_file);
+            $full_file = $dir . '/' . $file;
+            if (is_dir($full_file)) {
+                self::doDelDir($full_file);
             } else {
-                if (!unlink($fill_file)) {
+                if (!unlink($full_file)) {
                     return false;
                 }
             }
