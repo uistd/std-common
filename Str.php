@@ -136,8 +136,13 @@ class Str
         if (false !== strpos($str, '_')) {
             $str = ucwords(str_replace('_', ' ', $str));
             $str = str_replace(' ', '', $str);
+            if (!$uppercase_first) {
+                $str = lcfirst($str);
+            }
+        } elseif ($uppercase_first) {
+            $str = ucfirst($str);
         }
-        return $uppercase_first ? $str : lcfirst($str);
+        return $str;
     }
 
     /**
