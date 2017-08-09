@@ -243,4 +243,61 @@ class Utils
         closedir($dh);
         return rmdir($dir);
     }
+
+    /**
+     * 拷贝目录
+     * @param string $src
+     * @param string $dst
+     * @return bool
+     */
+    public static function copyDir($src, $dst)
+    {
+        if (!is_string($src) || empty($src || !is_string($dst) || empty($dst))) {
+            return false;
+        }
+        if (!is_dir($src)) {
+            return false;
+        }
+        $src = realpath($src);
+        if (!is_dir($dst) && !mkdir($dst)) {
+            return false;
+        }
+        $dst = realpath($dst);
+        if ($src === $dst) {
+            return false;
+        }
+        //如果 将 父级 目录 拷到 子目录, 不允许
+        if (0 === strpos($dst, $src .'/')) {
+            return false;
+        }
+        return self::doCopyDir($src, $dst);
+    }
+
+    /**
+     * 目录拷贝
+     * @param string $src
+     * @param string $dst
+     * @return bool
+     */
+    private static function doCopyDir($src, $dst)
+    {
+        $dir = opendir($src);
+        if (!is_dir($dst) && !mkdir($dst, 0755, true)) {
+            return false;
+        }
+        while (false !== ($file = readdir($dir))) {
+            if ('.' === $file{0}) {
+                continue;
+            }
+            $src_file = $src . '/' . $file;
+            $dst_file = $dst . '/' . $file;
+            if (is_dir($src_file)) {
+                self::copyDir($src_file, $dst_file);
+            } else {
+                copy($src_file, $dst_file);
+            }
+        }
+        closedir($dir);
+        return true;
+    }
 }
