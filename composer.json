@@ -1,5 +1,5 @@
 {
-  "name": "ffan/php/utils",
+  "name": "ffan/php-utils",
   "description": "FFan php utils components",
   "keywords": [
     "ffan",
@@ -16,7 +16,7 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "ffan/php/event": "1.*",
+    "ffan/php-event": "1.*",
     "ext-mbstring": "*"
   },
   "autoload": {
