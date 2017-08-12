@@ -146,6 +146,43 @@ class Str
     }
 
     /**
+     * 驼峰命名转下划线命名
+     * @param string $str
+     * @return string
+     */
+    public static function underlineName($str)
+    {
+        $len = strlen($str);
+        $result = '';
+        $flag = false;
+        for ($i = 0; $i < $len; ++$i) {
+            $code = ord($str{$i});
+            //不支持的字符串
+            if ($code > 0x7f) {
+                return $str;
+            }
+            //这里暂时写死, 大小写转换
+            if ($code >= 65 && $code <= 90) {
+                $code += 32;
+                if ($flag) {
+                    $result .= '_';
+                    $flag = false;
+                }
+                $result .= chr($code);
+            } else {
+                //95自己本身就是下划线
+                if (95 === $code) {
+                    $flag = false;
+                } else {
+                    $flag = true;
+                }
+                $result .= $str{$i};
+            }
+        }
+        return $result;
+    }
+
+    /**
      * 是否是合法的PHP类名
      * @param string $str 类名
      * @return bool

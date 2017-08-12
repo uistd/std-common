@@ -45,3 +45,10 @@ var_dump(Str::isValidVarName('aaabbbAA_'));
 var_dump(Str::isValidVarName('_0s'));
 var_dump(Str::isValidVarName('0s'));
 var_dump(Str::isValidVarName('s00000'));
+
+var_dump(Str::underlineName('testId'));
+var_dump(Str::underlineName('TestId'));
+var_dump(Str::underlineName('test_name_aa_bb'));
+var_dump(Str::underlineName('test_IDDentity'));
+var_dump(Str::underlineName('ID'));
+var_dump(Str::underlineName('aaa_D'));
