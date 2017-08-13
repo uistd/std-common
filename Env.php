@@ -207,7 +207,7 @@ class Env
             return ROOT_PATH;
         }
         //root_path/vendor/ffan/php/utils/Env.php
-        $root_path = str_replace('vendor/ffan/php/utils', '', __DIR__);
+        $root_path = str_replace('vendor/ffan/php-utils', '', __DIR__);
         return $root_path;
     }
 
