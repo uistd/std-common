@@ -14,14 +14,24 @@ class Env
     const DEV = 1;
 
     /**
-     * 测试环境
+     * SIT 环境
      */
-    const TEST = 2;
+    const SIT = 2;
+
+    /**
+     * uat 环境
+     */
+    const UAT = 4;
+
+    /**
+     * pre 预发布环境
+     */
+    const PRE = 8;
 
     /**
      * 生成环境
      */
-    const PRODUCT = 3;
+    const PRODUCT = 16;
 
     /**
      * @var string runtime目录
@@ -45,8 +55,10 @@ class Env
         $tmp_env = Config::get('env', 'product');
         $env_map = array(
             'dev' => self::DEV,
-            'test' => self::TEST,
-            'product' => self::PRODUCT
+            'sit' => self::SIT,
+            'uat' => self::UAT,
+            'pre' => self::PRE,
+            'product' => self::PRODUCT,
         );
         self::$_env = isset($env_map[$tmp_env]) ? $env_map[$tmp_env] : self::PRODUCT;
         return self::$_env;
@@ -62,12 +74,30 @@ class Env
     }
 
     /**
-     * 是否是测试环境
+     * 是否是sit环境
      * @return bool
      */
-    public static function isTest()
+    public static function isSit()
     {
-        return self::TEST === self::getEnv();
+        return self::SIT === self::getEnv();
+    }
+
+    /**
+     * 是否是uat环境
+     * @return bool
+     */
+    public static function isUat()
+    {
+        return self::UAT === self::getEnv();
+    }
+
+    /**
+     * 是否是pre环境
+     * @return bool
+     */
+    public static function isPre()
+    {
+        return self::PRE === self::getEnv();
     }
 
     /**
