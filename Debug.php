@@ -1,4 +1,5 @@
 <?php
+
 namespace ffan\php\utils;
 
 /**
@@ -92,11 +93,12 @@ class Debug
     }
 
     /**
-     * 生成代码回溯信息
+     * 代码回溯信息
      * @param array|null 代码回溯信息 ，如果为null，立即获取
+     * @param bool $trace_arg 是否打印参数
      * @return string
      */
-    public static function codeTrace($trace_list = null)
+    public static function codeTrace($trace_list = null, $trace_arg = false)
     {
         if (!is_array($trace_list)) {
             $trace_list = debug_backtrace();
@@ -113,25 +115,27 @@ class Debug
                 $tmp_info['arg_info'] = '';
                 continue;
             }
-            $arg_info = '';
-            foreach ($tmp_info['args'] as $arg_id => $each_arg) {
-                $param_type = gettype($each_arg);
-                $param_format = self::varFormat($each_arg, 4096);
-                if ('array' === $param_type || 'object' === $param_type) {
-                    $md5_param = md5($param_format);
-                    if (isset($array_format[$md5_param])) {
-                        $param_format = '[...]';
-                        $param_type = $array_format[$md5_param];
-                    } else {
-                        $arr_name = $param_type . '_' . $array_count;
-                        $array_format[$md5_param] = $arr_name;
-                        $param_type = $arr_name;
-                        $array_count++;
+            if ($trace_arg) {
+                $arg_info = '';
+                foreach ($tmp_info['args'] as $arg_id => $each_arg) {
+                    $param_type = gettype($each_arg);
+                    $param_format = self::varFormat($each_arg, 4096);
+                    if ('array' === $param_type || 'object' === $param_type) {
+                        $md5_param = md5($param_format);
+                        if (isset($array_format[$md5_param])) {
+                            $param_format = '[...]';
+                            $param_type = $array_format[$md5_param];
+                        } else {
+                            $arr_name = $param_type . '_' . $array_count;
+                            $array_format[$md5_param] = $arr_name;
+                            $param_type = $arr_name;
+                            $array_count++;
+                        }
                     }
+                    $arg_info .= PHP_EOL . '[Arg_' . $arg_id . '] => (' . $param_type . ')' . $param_format;
                 }
-                $arg_info .= PHP_EOL . '[Arg_' . $arg_id . '] => (' . $param_type . ')' . $param_format;
+                $tmp_info['arg_info'] = $arg_info;
             }
-            $tmp_info['arg_info'] = $arg_info;
         }
         $index = 0;
         foreach ($trace_list as $step_info) {
@@ -149,7 +153,7 @@ class Debug
                 $error_msg .= $step_info['type'];
             }
             if (isset($step_info['function'])) {
-                $error_msg .= $step_info['function'] .'()';
+                $error_msg .= $step_info['function'] . '()';
             }
             $error_msg .= $step_info['arg_info'] . PHP_EOL;
             $error_arr[] = $error_msg;
