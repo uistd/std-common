@@ -259,7 +259,7 @@ class Utils
             return false;
         }
         $src = realpath($src);
-        if (!is_dir($dst) && !mkdir($dst)) {
+        if (!is_dir($dst) && !mkdir($dst, 0755, true)) {
             return false;
         }
         $dst = realpath($dst);
