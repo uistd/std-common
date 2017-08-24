@@ -10,7 +10,12 @@ error_reporting(-1);
 
 echo Ip::get(), PHP_EOL;
 echo Ip::getLong(), PHP_EOL;
-var_dump(Ip::isInternal(Ip::get()));
+$_SERVER['HTTP_X_FORWARDED_FOR'] = '8.8.8.9';
+echo Ip::get(), PHP_EOL;
+$_SERVER['HTTP_X_FORWARDED_FOR'] = 'unknown, 8.8.8.8';
+echo Ip::get(), PHP_EOL;
+$_SERVER['HTTP_X_FORWARDED_FOR'] = '61.139.2.59,192.168.1.2';
+echo Ip::get(), PHP_EOL;
 var_dump(Ip::isInternal(Ip::getLong()));
 var_dump(Ip::isInternal('127.0.0.1'));
 var_dump(Ip::isInternal('192.168.1.12'));

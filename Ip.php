@@ -38,10 +38,23 @@ class Ip
             $client_ip = $_SERVER['HTTP_CLIENT_IP'];
         } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && 0 != strcasecmp($_SERVER['HTTP_X_FORWARDED_FOR'], $except)) {
             $client_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-            //特殊的情况，ip地址中间有逗号，取第1个就可以了
+            //特殊的情况，ip地址中间有逗
             $pos = strpos($client_ip, ',');
             if (false !== $pos) {
-                $client_ip = substr($client_ip, 0, $pos);
+                $tmp_ip = substr($client_ip, 0, $pos);
+                //尝试获取得第一个， 如果 第一个是unknown，再做一个比较复杂的操作
+                //没有一开始就做复杂的操作，性能更好一些
+                if ('unknown' === $tmp_ip) {
+                    $ip_array = explode(',', $client_ip);
+                    foreach ($ip_array as $ip) {
+                        if ('unknown' != $ip){
+                            $client_ip = trim($ip);
+                            break;
+                        }
+                    }
+                } else {
+                    $client_ip = $tmp_ip;
+                }
             }
         } elseif (isset($_SERVER['REMOTE_ADDR']) && 0 != strcasecmp($_SERVER['REMOTE_ADDR'], $except)) {
             $client_ip = $_SERVER['REMOTE_ADDR'];
