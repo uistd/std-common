@@ -152,7 +152,7 @@ class Debug
             if (isset($step_info['type'])) {
                 $error_msg .= $step_info['type'];
             }
-            if (isset($step_info['function'])) {
+            if ($trace_arg) {
                 $error_msg .= $step_info['function'] . '()';
             }
             $error_msg .= $step_info['arg_info'] . PHP_EOL;
