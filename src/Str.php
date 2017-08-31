@@ -1,26 +1,26 @@
 <?php
-namespace ffan\php\utils;
+namespace FFan\Std\Common;
 
 /**
  * Class Str 一些通用的字符串处理函数
- * @package ffan\php\utils
+ * @package FFan\Std\Common
  */
 class Str
 {
     /**
      * 切割的第一项都转成int
      */
-    const INTVAL = 1;
+    const SPLIT_TO_INT = 1;
 
     /**
      * 切割的每一项都trim
      */
-    const TRIM = 2;
+    const SPLIT_TRIM = 2;
 
     /**
      * 忽略空值
      */
-    const IGNORE_EMPTY = 4;
+    const SPLIT_IGNORE_EMPTY = 4;
 
     /**
      * 传入的字符串是否是utf8
@@ -100,7 +100,7 @@ class Str
      *
      * @return array
      */
-    public static function split($str, $split_flag = ',', $split_mod = self::TRIM | self::IGNORE_EMPTY)
+    public static function split($str, $split_flag = ',', $split_mod = self::SPLIT_TRIM | self::SPLIT_IGNORE_EMPTY)
     {
         if (!is_string($str)) {
             $str = (string)$str;
@@ -111,13 +111,13 @@ class Str
         }
         $arr = explode($split_flag, $str);
         foreach ($arr as $item) {
-            if ($split_mod & self::TRIM) {
+            if ($split_mod & self::SPLIT_TRIM) {
                 $item = trim($item);
             }
-            if (($split_mod & self::IGNORE_EMPTY) && 0 == strlen($item)) {
+            if (($split_mod & self::SPLIT_IGNORE_EMPTY) && 0 == strlen($item)) {
                 continue;
             }
-            if ($split_mod & self::INTVAL) {
+            if ($split_mod & self::SPLIT_TO_INT) {
                 $item = (int)$item;
             }
             $result[] = $item;

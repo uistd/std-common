@@ -1,5 +1,6 @@
 <?php
-namespace ffan\php\utils;
+
+namespace FFan\Std\Common;
 
 require_once '../vendor/autoload.php';
 

@@ -1,11 +1,11 @@
 <?php
-namespace ffan\php\utils;
+namespace FFan\Std\Common;
 
 /**
  * Class InvalidConfigException
- * @package ffan\php\utils
+ * @package FFan\Std\Common
  */
-class InvalidConfigException extends \Exception implements Exception
+class InvalidConfigException extends \Exception
 {
     /**
      * 配置出错的错误ID

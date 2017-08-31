@@ -1,10 +1,8 @@
 <?php
-/**
- * 还没有确定用PHPUnit 还是 Codeception 时间关系，先随便写一点测试代码
- */
-namespace ffan\php\utils;
 
-require_once '../Str.php';
+namespace FFan\Std\Common;
+
+require_once '../vendor/autoload.php';
 
 error_reporting(-1);
 
@@ -27,8 +25,8 @@ var_dump(Str::split('|a, b, c, d'));
 var_dump(Str::split('a| b |c |d', '|'));
 var_dump(Str::split('a| b |c |d', '|', 0));
 var_dump(Str::split('|a| b |c |d', '|', 0));
-var_dump(Str::split('|a| b |c |d', '|', Str::IGNORE_EMPTY));
-var_dump(Str::split('|1, 2,3, 4', ',', Str::TRIM | Str::IGNORE_EMPTY | Str::INTVAL));
+var_dump(Str::split('|a| b |c |d', '|', Str::SPLIT_IGNORE_EMPTY));
+var_dump(Str::split('|1, 2,3, 4', ',', Str::SPLIT_TRIM | Str::SPLIT_IGNORE_EMPTY | Str::SPLIT_TO_INT));
 $str = 'member_view_detail';
 echo Str::camelName($str), PHP_EOL;
 echo Str::camelName($str, false), PHP_EOL;

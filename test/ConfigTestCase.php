@@ -1,7 +1,8 @@
 <?php
-namespace ffan\php\utils;
 
-require_once '../Config.php';
+namespace FFan\Std\Common;
+
+require_once '../vendor/autoload.php';
 
 Config::addArray(array('a' => 1, 'b' => 2));
 Config::addArray(array('a' => 3, 'b' => 4));

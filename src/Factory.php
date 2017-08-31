@@ -1,9 +1,10 @@
 <?php
-namespace ffan\php\utils;
+
+namespace FFan\Std\Common;
 
 /**
  * Class Factory 类工厂
- * @package ffan\php\utils
+ * @package FFan\Std\Common
  */
 abstract class Factory
 {

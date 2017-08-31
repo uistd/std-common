@@ -1,10 +1,10 @@
 <?php
 
-namespace ffan\php\utils;
+namespace FFan\Std\Common;
 
 /**
  * Class ConfigBase 通用的配置读取接口
- * @package ffan\php\utils
+ * @package FFan\Std\Common
  */
 abstract class ConfigBase
 {
@@ -45,7 +45,7 @@ abstract class ConfigBase
         }
         return $this->config_arr[$name];
     }
-    
+
     /**
      * 获取一个配置项，并且将值转成int
      * @param string $name 配置项

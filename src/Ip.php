@@ -1,8 +1,9 @@
 <?php
-namespace ffan\php\utils;
+
+namespace FFan\Std\Common;
 /**
  * Class Ip IP操作相关函数
- * @package ffan\php\utils
+ * @package FFan\Std\Common
  */
 class Ip
 {
@@ -47,7 +48,7 @@ class Ip
                 if ('unknown' === $tmp_ip) {
                     $ip_array = explode(',', $client_ip);
                     foreach ($ip_array as $ip) {
-                        if ('unknown' != $ip){
+                        if ('unknown' != $ip) {
                             $client_ip = trim($ip);
                             break;
                         }

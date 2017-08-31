@@ -1,10 +1,10 @@
 <?php
 
-namespace ffan\php\utils;
+namespace FFan\Std\Common;
 
 /**
  * Class Utils 一些通用方法
- * @package ffan\php\utils
+ * @package FFan\Std\Common
  */
 class Utils
 {
@@ -267,7 +267,7 @@ class Utils
             return false;
         }
         //如果 将 父级 目录 拷到 子目录, 不允许
-        if (0 === strpos($dst, $src .'/')) {
+        if (0 === strpos($dst, $src . '/')) {
             return false;
         }
         return self::doCopyDir($src, $dst);
@@ -300,4 +300,16 @@ class Utils
         closedir($dir);
         return true;
     }
+
+    /**
+     * 是否是浏览器 XMLHttpRequest发出的请求
+     * @return bool
+     */
+    public static function isAjaxRequest()
+    {
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && 'xmlhttprequest' === strtolower($_SERVER['HTTP_X_REQUESTED_WITH']);
+    }
+
+
 }

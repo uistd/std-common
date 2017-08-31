@@ -1,10 +1,8 @@
 <?php
-/**
- * 还没有确定用PHPUnit 还是 Codeception 时间关系，先随便写一点测试代码
- */
-namespace ffan\php\utils;
 
-require_once '../Ip.php';
+namespace FFan\Std\Common;
+
+require_once '../vendor/autoload.php';
 
 error_reporting(-1);
 

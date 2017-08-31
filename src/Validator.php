@@ -1,9 +1,10 @@
 <?php
-namespace ffan\php\utils;
+
+namespace FFan\Std\Common;
 
 /**
  * Class Validator 数据有效性检验
- * @package ffan\php\utils
+ * @package FFan\Std\Common
  */
 class Validator
 {
@@ -14,7 +15,7 @@ class Validator
      */
     public static function isMobile($mobile)
     {
-        return preg_match('/^(\+86)?1[34578]{1}\d{9}$/', $mobile) > 0;
+        return preg_match('/^1[34578]{1}\d{9}$/', $mobile) > 0;
     }
 
     /**

@@ -1,5 +1,5 @@
 {
-  "name": "ffan/php-utils",
+  "name": "ffan/std-common",
   "description": "FFan php utils components",
   "keywords": [
     "ffan",
@@ -16,11 +16,10 @@
   ],
   "require": {
     "php": ">=5.5.0",
-    "ffan/php-event": "1.*",
     "ext-mbstring": "*"
   },
   "autoload": {
-  "psr-4": {"ffan\\php\\utils\\": "", "Psr\\EventManager\\":""}
+  "psr-4": {"FFan\\Std\\Common\\": "src"}
 },
   "minimum-stability": "dev",
   "archive": {
