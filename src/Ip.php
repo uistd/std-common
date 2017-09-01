@@ -66,6 +66,26 @@ class Ip
     }
 
     /**
+     * 获取header里的日志信息，不处理
+     * @return string
+     */
+    public static function getOriginalIp()
+    {
+        $except = 'unknown';
+        $result = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP']) && 0 != strcasecmp($_SERVER['HTTP_CLIENT_IP'], $except)) {
+            $result .= 'client:' . $_SERVER['HTTP_CLIENT_IP'];
+        }
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && 0 != strcasecmp($_SERVER['HTTP_X_FORWARDED_FOR'], $except)) {
+            $result .= ' x_forward:'. $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        if (isset($_SERVER['REMOTE_ADDR']) && 0 != strcasecmp($_SERVER['REMOTE_ADDR'], $except)) {
+            $result .= ' remote:'. $_SERVER['REMOTE_ADDR'];
+        }
+        return $result;
+    }
+
+    /**
      * 获取客户端IP地址，转换成数字
      * @return int
      */
