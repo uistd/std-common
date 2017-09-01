@@ -206,8 +206,8 @@ class Env
         if (defined('ROOT_PATH')) {
             return ROOT_PATH;
         }
-        //root_path/vendor/ffan/php/utils/Env.php
-        $root_path = str_replace('vendor/ffan/php-utils', '', __DIR__);
+        //root_path/vendor/ffan/std-common/src/Env.php
+        $root_path = str_replace('vendor/ffan/std-common/src', '', __DIR__);
         return $root_path;
     }
 
