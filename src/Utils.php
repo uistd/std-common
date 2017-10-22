@@ -172,7 +172,7 @@ class Utils
      * @param int $unit_type 单位格式 1：首字母大写 2：全部大写 其它：全部小写
      * @return string
      */
-    public static function sizeFormat($size, $precision = 2, $unit_type = 1)
+    public static function sizeFormat($size, $precision = 1)
     {
         $size = (int)$size;
         if ($size <= 0) {
@@ -180,29 +180,24 @@ class Utils
         }
         if ($size < 0x400) {
             $size_str = (string)$size;
-            $unit = 'byte';
+            $unit = 'Byte';
         } elseif ($size < 0x100000) {
             $size_str = $size / 0x400;
-            $unit = 'kb';
+            $unit = 'K';
         } elseif ($size < 0x40000000) {
             $size_str = $size / 0x100000;
-            $unit = 'mb';
+            $unit = 'M';
         } elseif ($size < 0x10000000000) {
             $size_str = $size / 0x40000000;
-            $unit = 'gb';
+            $unit = 'G';
         } elseif ($size < 0x4000000000000) {
             $size_str = $size / 0x10000000000;
-            $unit = 'tb';
+            $unit = 'T';
         } else {
             $size_str = $size / 0x4000000000000;
-            $unit = 'pb';
+            $unit = 'P';
         }
         $size_str = round($size_str, $precision);
-        if (1 === $unit_type) {
-            $unit = ucwords($unit);
-        } elseif (2 === $unit_type) {
-            $unit = strtoupper($unit);
-        }
         return $size_str . $unit;
     }
 
