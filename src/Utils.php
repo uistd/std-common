@@ -169,7 +169,6 @@ class Utils
      * 大小格式化输出(10240 输出 10K )
      * @param int $size
      * @param int $precision 小数点位数
-     * @param int $unit_type 单位格式 1：首字母大写 2：全部大写 其它：全部小写
      * @return string
      */
     public static function sizeFormat($size, $precision = 1)
