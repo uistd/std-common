@@ -68,3 +68,13 @@ var_dump(Utils::copyDir(__DIR__, __DIR__));
 var_dump(Utils::copyDir(__DIR__, __DIR__ .'/test'));
 
 var_dump(Utils::copyDir(__DIR__, dirname(__DIR__) .'/test2'));
+
+class testClass{
+    private $a = 1;
+
+    public $b = 2;
+
+    public $c;
+}
+
+var_dump(Utils::objectToArray(new testClass()));

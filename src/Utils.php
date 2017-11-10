@@ -305,5 +305,20 @@ class Utils
             && 'xmlhttprequest' === strtolower($_SERVER['HTTP_X_REQUESTED_WITH']);
     }
 
+    /**
+     * 将对象转数组,并且移除null值
+     * @param object $object
+     * @return array
+     */
+    public static function objectToArray($object)
+    {
+        $result = get_object_vars($object);
+        foreach ($result as $key => $v) {
+            if (null === $v) {
+                unset($result[$key]);
+            }
+        }
+        return $result;
+    }
 
 }
