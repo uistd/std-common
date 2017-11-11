@@ -321,4 +321,17 @@ class Utils
         return $result;
     }
 
+    /**
+     * 获取请求的方式
+     * @return string
+     */
+    public static function getHttpMethod()
+    {
+        if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])) {
+            return strtoupper($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']);
+        } else {
+            return isset($_SERVER['REQUEST_METHOD']) ? strtoupper($_SERVER['REQUEST_METHOD']) : 'GET';
+        }
+    }
+
 }
