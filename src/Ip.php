@@ -34,6 +34,11 @@ class Ip
         if ($client_ip) {
             return $client_ip;
         }
+        //如果带这两个参数, 表示是从 飞凡GateWay 过来的请求
+        if (isset($_GET['__trace_id'], $_GET['_realip'])) {
+            $client_ip = $_GET['_realip'];
+            return $client_ip;
+        }
         $except = 'unknown';
         if (isset($_SERVER['HTTP_CLIENT_IP']) && 0 != strcasecmp($_SERVER['HTTP_CLIENT_IP'], $except)) {
             $client_ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -77,10 +82,10 @@ class Ip
             $result .= 'client:' . $_SERVER['HTTP_CLIENT_IP'];
         }
         if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && 0 != strcasecmp($_SERVER['HTTP_X_FORWARDED_FOR'], $except)) {
-            $result .= ' x_forward:'. $_SERVER['HTTP_X_FORWARDED_FOR'];
+            $result .= ' x_forward:' . $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
         if (isset($_SERVER['REMOTE_ADDR']) && 0 != strcasecmp($_SERVER['REMOTE_ADDR'], $except)) {
-            $result .= ' remote:'. $_SERVER['REMOTE_ADDR'];
+            $result .= ' remote:' . $_SERVER['REMOTE_ADDR'];
         }
         return $result;
     }
