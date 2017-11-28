@@ -44,15 +44,7 @@ abstract class Factory
         if (!is_string($config_name)) {
             throw new \InvalidArgumentException('config_name is not string');
         }
-        $group_conf_arr = Config::get(static::$config_group);
-        $conf_arr = Config::get(self::configGroupName($config_name));
-        if (!is_array($conf_arr)) {
-            $conf_arr = [];
-        }
-        //如果上级有配置，合并配置
-        if (is_array($group_conf_arr)) {
-            $conf_arr += $group_conf_arr;
-        }
+        $conf_arr = Config::get(self::configGroupName($config_name), []);
         //如果指定了的类名
         if (isset($conf_arr['class'])) {
             $class_name = $conf_arr['class'];
