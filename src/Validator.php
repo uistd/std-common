@@ -156,4 +156,14 @@ class Validator
     {
         return preg_match('/^\d{3}-\d{8}|\d{4}-\d{7}$/', $phone_number) > 0;
     }
+
+    /**
+     * 是否md5串
+     * @param string $str
+     * @return bool
+     */
+    public static function isMd5($str)
+    {
+        return preg_match('/^[a-zA-Z\d]{32}$/', $str) > 0;
+    }
 }

@@ -57,3 +57,7 @@ var_dump(Validator::isPhone('021-31992288'));
 var_dump(Validator::isPhone('021-31992288-2903'));
 
 var_dump(Validator::isPhone('021 31992288'));
+
+var_dump(Validator::isMd5(md5(uniqid())));
+
+var_dump(Validator::isMd5('aaabbbdddeeee'));
