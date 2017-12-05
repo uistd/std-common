@@ -38,30 +38,16 @@ abstract class Factory
      */
     protected static function getInstance($config_name)
     {
-        if (isset(static::$object_arr[$config_name])) {
-            return static::$object_arr[$config_name];
+        $cache_key = self::configGroupName($config_name);
+        if (isset(static::$object_arr[$cache_key])) {
+            return static::$object_arr[$cache_key];
         }
-        if (!is_string($config_name)) {
-            throw new \InvalidArgumentException('config_name is not string');
-        }
-        $conf_arr = Config::get(self::configGroupName($config_name), []);
-        //如果指定了的类名
-        if (isset($conf_arr['class'])) {
-            $class_name = $conf_arr['class'];
-            //如果有别名，使用配置的别名
-            if (isset(static::$class_alias[$class_name])) {
-                $class_name = static::$class_alias[$class_name];
-            } elseif (!Str::isValidClassName($class_name)) {
-                throw new InvalidConfigException(self::configGroupName($config_name, 'class'), 'invalid class name!');
-            }
-            $new_obj = new $class_name($config_name, $conf_arr);
-        } else {
-            $new_obj = static::defaultInstance($config_name, $conf_arr);
-        }
+        $conf_arr = Config::get($cache_key, []);
+        $new_obj = static::defaultInstance($config_name, $conf_arr);
         if (null === $new_obj) {
-            throw new InvalidConfigException(self::configGroupName($config_name), 'Can not instance');
+            throw new InvalidConfigException(self::configGroupName($config_name), ' Can not instance');
         }
-        static::$object_arr[$config_name] = $new_obj;
+        static::$object_arr[$cache_key] = $new_obj;
         return $new_obj;
     }
 
