@@ -62,6 +62,10 @@ class Ip
         } else {
             $client_ip = '127.0.0.1';
         }
+        //内网环境下，可以在url后面加__realip 指定客户端真实IP, 用于内网请求时, 将客户端的真实IP带过去
+        if (isset($_GET['_realip']) && self::isInternal($client_ip)) {
+            $client_ip = $_GET['_realip'];
+        }
         return $client_ip;
     }
 
