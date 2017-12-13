@@ -34,11 +34,6 @@ class Ip
         if ($client_ip) {
             return $client_ip;
         }
-        //如果带这两个参数, 表示是从 飞凡GateWay 过来的请求
-        if (isset($_GET['__trace_id'], $_GET['_realip'])) {
-            $client_ip = $_GET['_realip'];
-            return $client_ip;
-        }
         $except = 'unknown';
         if (isset($_SERVER['HTTP_CLIENT_IP']) && 0 != strcasecmp($_SERVER['HTTP_CLIENT_IP'], $except)) {
             $client_ip = $_SERVER['HTTP_CLIENT_IP'];
