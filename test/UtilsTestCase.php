@@ -41,7 +41,7 @@ var_dump(Utils::sizeFormat(1024*1024 + 200*1024));
 
 var_dump(Utils::sizeFormat(1024*1024*1024));
 
-var_dump(Utils::sizeFormat(1024*1024*1024*3 + 1024 * 1024 * 300, 3, 2));
+var_dump(Utils::sizeFormat(1024*1024*1024*3 + 1024 * 1024 * 300, 3));
 
 var_dump(Utils::sizeFormat(1024*1024*1024*1024 * 5));
 
