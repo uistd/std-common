@@ -137,6 +137,6 @@ class Config
         if (!isset($config_arr[$env_key])) {
             $env_key = 'CONFIG_'. strtoupper($default_env);
         }
-        return isset($config_arr[$env_key]) ? $config_arr[$env_key] : $empty_config;
+        return isset($config_arr[$env_key]) ? $config_arr[$env_key] : $config_arr;
     }
 }
