@@ -112,4 +112,31 @@ class Config
         }
         self::$_conf_arr = $init_config;
     }
+
+    /**
+     * 加载配置文件
+     * @param string $file
+     * @param string $default_env 默认的配置, 如果不存在当前环境的配置, 使用指定的配置作为默认配置
+     * @return array
+     */
+    public static function load($file, $default_env = 'sit')
+    {
+        $empty_config = array();
+        //如果文件不存在
+        if (!is_file($file)) {
+            return $empty_config;
+        }
+        /** @noinspection PhpIncludeInspection */
+        $config_arr = require($file);
+        if (!is_array($config_arr)) {
+            return $empty_config;
+        }
+        $env = self::get('env', $default_env);
+        $env_key = 'CONFIG_'. strtoupper($env);
+        //如果存在该环境下特殊的配置
+        if (!isset($config_arr[$env_key])) {
+            $env_key = 'CONFIG_'. strtoupper($default_env);
+        }
+        return isset($config_arr[$env_key]) ? $config_arr[$env_key] : $empty_config;
+    }
 }

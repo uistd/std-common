@@ -50,3 +50,9 @@ var_dump(Config::get('test.aaa.bbb'));
 var_dump(Config::getInt('test.aaa.bbb'));
 var_dump(Config::getString('test.aaa.bbb'));
 var_dump(Config::getString('test.aaa.bbb.mmm'));
+
+Config::add('env', 'uat');
+var_dump(Config::load('conf.php'));
+Config::add('env', '');
+var_dump(Config::load('conf.php'));
+var_dump(Config::load('conf.php', 'prod'));
