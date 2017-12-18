@@ -1,6 +1,6 @@
 <?php
 
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 require_once '../vendor/autoload.php';
 

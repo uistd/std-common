@@ -1,9 +1,9 @@
 <?php
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class InvalidConfigException
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 class InvalidConfigException extends \Exception
 {

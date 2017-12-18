@@ -1,9 +1,9 @@
 <?php
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class Str 一些通用的字符串处理函数
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 class Str
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class ConfigBase 通用的配置读取接口
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 abstract class ConfigBase
 {

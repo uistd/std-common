@@ -1,9 +1,9 @@
 <?php
 
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 /**
  * Class Ip IP操作相关函数
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 class Ip
 {

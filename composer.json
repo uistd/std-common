@@ -1,9 +1,9 @@
 {
-  "name": "ffan/std-common",
-  "description": "FFan php utils components",
+  "name": "uistd/common",
+  "description": "UI Service 模板基础组件",
   "keywords": [
-    "ffan",
-    "php",
+    "ui service",
+    "uistd",
     "utils"
   ],
   "type": "composer",
@@ -19,9 +19,9 @@
     "ext-mbstring": "*"
   },
   "autoload": {
-  "psr-4": {"FFan\\Std\\Common\\": "src"}
+  "psr-4": {"UiStd\\Common\\": "src"}
 },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "archive": {
     "exclude": ["test", ".gitignore"]
   },

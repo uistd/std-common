@@ -1,10 +1,10 @@
 <?php
 
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class Time 时间处理相关
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 class Time
 {

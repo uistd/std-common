@@ -1,17 +1,17 @@
 <?php
 
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class Factory 类工厂
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 abstract class Factory
 {
     /**
      * @var string 配置组名
      */
-    protected static $config_group = 'ffan';
+    protected static $config_group = 'uis';
 
     /**
      * @var array 对象列表

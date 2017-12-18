@@ -1,10 +1,10 @@
 <?php
 
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class Validator 数据有效性检验
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 class Validator
 {

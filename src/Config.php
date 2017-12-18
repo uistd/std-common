@@ -1,9 +1,9 @@
 <?php
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class Config
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 class Config
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class Utils 一些通用方法
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 class Utils
 {

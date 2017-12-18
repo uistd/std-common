@@ -1,10 +1,10 @@
 <?php
 
-namespace FFan\Std\Common;
+namespace UiStd\Common;
 
 /**
  * Class Env 环境
- * @package FFan\Std\Common
+ * @package UiStd\Common
  */
 class Env
 {
@@ -206,7 +206,7 @@ class Env
         if (defined('ROOT_PATH')) {
             return ROOT_PATH;
         }
-        $root_path = str_replace('vendor/ffan/std-common/src', '', __DIR__);
+        $root_path = str_replace('vendor/uistd/common/src', '', __DIR__);
         return $root_path;
     }
 
